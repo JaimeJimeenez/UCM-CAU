@@ -1,0 +1,22 @@
+#title {
+    text-align: center;
+}
+
+#login {
+    width: 75%;
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#lgTitle {
+    margin-left: 18%;
+}
+
+.input {
+    width: 45%;
+}
+
+#btnLogIn {
+    margin-left: 38%;
+}
