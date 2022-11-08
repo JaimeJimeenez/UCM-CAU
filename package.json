@@ -1,0 +1,34 @@
+{
+  "name": "ucm-cau",
+  "version": "1.0.0",
+  "description": "Practice for the Web Applications subject",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jimmyjimmenez/UCM-CAU.git"
+  },
+  "keywords": [
+    "UCM",
+    "AW",
+    "CAU",
+    "HTML",
+    "CSS",
+    "JS",
+    "MYSQL"
+  ],
+  "author": "Jaime Jiménez Nieto",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jimmyjimmenez/UCM-CAU/issues"
+  },
+  "homepage": "https://github.com/Jimmyjimmenez/UCM-CAU#readme",
+  "dependencies": {
+    "ejs": "^3.1.8",
+    "express": "^4.18.2",
+    "mysql": "^2.18.1",
+    "path": "^0.12.7"
+  }
+}
