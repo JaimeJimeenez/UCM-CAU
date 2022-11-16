@@ -3,20 +3,32 @@
 }
 
 #login {
-    width: 75%;
-    margin-top: 50px;
+    width: 25%;
+    height: 20rem;
+    margin-top: 10%;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 5px;
+    box-shadow: 
+        inset   0 -3em 3em rgba(0, 0, 0, 0.1 ),
+                0 0 0 2px rgb(255, 255, 255),
+                0.3em 0.3em 1em rgba(0, 0, 0, 0.3);         
+}
+
+#lgTitle {
+    text-align: center;
+    height: 10%;
+    width: auto;
     margin-left: auto;
     margin-right: auto;
 }
 
-#lgTitle {
-    margin-left: 18%;
-}
-
 .input {
-    width: 45%;
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
 }
 
 #btnLogIn {
-    margin-left: 38%;
+    margin-left: 65%;;
 }
