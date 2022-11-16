@@ -10,33 +10,39 @@
 </head>
 <body>
 
-    <head>
-        <div class = "row p-3 align-items-center bg-light">
-            <div class = "col col-sm-2 col-md-2 col-xl-2">
-                <a href = "#">
-                    <img src = "./images/logo.png" alt = "Logo de la Universidad Complutense de Madrid">
-                </a>
-            </div>
+    <div class = "container-fluid">
+        <head>
+            <div class = "row p-3 align-items-center bg-light">
+                <div class = "col col-sm-2 col-md-2 col-xl-2">
+                    <a href = "#">
+                        <img src = "./images/logo.png" alt = "Logo de la Universidad Complutense de Madrid">
+                    </a>
+                </div>
             <div class = "col offset-2 col-sm-4 col-md-4 col-xl-4" id = "title">
                 <h3> UCM - CAU </h3>
                 <h6> Centro de Atención al Usuario </h6>
             </div>
-        </div>
-    </head>
 
-    <section>
-
-        <!-- Create account -->
-        <div class = "row" id = "new">
-            <div class = "mt-4" id = newTitle>
-                <h4> New Account </h4>
+            <!-- Dark mode -->
             </div>
+        </head>
 
-            <form method = "POST" action = "newAccount">
+        <section>
+
+            <!-- Create account -->
+            <div class = "row bg-light mt-4" id = "newAcc">
+                <div class = "mt-4" id = "newTitle">
+                    <h4> New Account </h4>
+                </div>
+
+                <form method = "POST" action = "newAccount">
                 
-                <button type = "submit" class = "btn btn-primary" id = "btnNew"> Create Account </button>
-            </form>
-        </div>
-    </section>
+                    <button type = "submit" class = "btn btn-primary" id = "btnNew"> Create Account </button>
+                </form>
+            </div>
+        </section>
+    
+    </div>
+    
 </body>
 </html>

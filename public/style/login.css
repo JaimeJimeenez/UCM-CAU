@@ -2,17 +2,36 @@
     text-align: center;
 }
 
-#login {
-    width: 25%;
-    height: 20rem;
-    margin-top: 10%;
-    margin-left: auto;
-    margin-right: auto;
+.box {
     border-radius: 5px;
     box-shadow: 
         inset   0 -3em 3em rgba(0, 0, 0, 0.1 ),
                 0 0 0 2px rgb(255, 255, 255),
-                0.3em 0.3em 1em rgba(0, 0, 0, 0.3);         
+                0.3em 0.3em 1em rgba(0, 0, 0, 0.3);    
+}
+
+#login {
+    width: 20%;
+    height: 28.5rem;
+    margin-top: 5%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#question {
+    margin-left: auto;
+    margin-right: auto;
+    width: auto;
+}
+
+.material-icons.md-48 {
+    text-align: center;
+    font-size: 48px;
+    border: 2px solid black;
+    -moz-border-radius: 50px;
+   -webkit-border-radius: 50px;
+   border-radius: 50px;
+   background-color: white;
 }
 
 #lgTitle {
@@ -31,4 +50,13 @@
 
 #btnLogIn {
     margin-left: 65%;;
+}
+
+#newAcc {
+    width: 25%;
+    padding: 25px;
+    margin-top: 3%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
 }
