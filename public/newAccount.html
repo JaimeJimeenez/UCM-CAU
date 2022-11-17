@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> New Account </title>
+    <title> Sign in </title>
     <link rel = "stylesheet" href = "./style/newAccount.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 </head>
@@ -31,14 +31,93 @@
 
             <!-- Create account -->
             <div class = "row bg-light mt-4" id = "newAcc">
-                <div class = "mt-4" id = "newTitle">
-                    <h4> New Account </h4>
+                <div class = "col col-sm-12 col-md-12 col-xl-12 mt-4" id = "newTitle">
+                    <h4> Nueva Cuenta </h4>
                 </div>
 
-                <form method = "POST" action = "newAccount">
-                
-                    <button type = "submit" class = "btn btn-primary" id = "btnNew"> Create Account </button>
-                </form>
+                <div class="row">
+                    <form action = "newAccount" method = "POST">
+
+                        <div class = "form-group row">
+                            <label for = "email" class = "col col-sm-6 col-md-6 col-xl-6 col-form-label">Email</label>
+                            <label for = "name" class = "col col-sm-6 col-md-6 col-xl-6 col-form-label"> Nombre</label>
+                        </div>
+
+                        <div class = "form-group row">
+
+                            <div class = "col col-sm-6 col-md-6 col-xl-6">
+                                <input type = "email" class = "form-control" id = "email">
+                            </div>
+                            <div class = "col col-sm-6 col-md-6 col-xl-6">
+                                <input type = "text" class = "form-control" id = "name">
+                            </div>
+
+                        </div>
+
+                        <div class = "form-group row">
+                            <label for = "password" class = "col col-sm-6 col-md-6 col-xl-6 col-form-label">Contraseña</label>
+                            <label for = "profile" class = "col col-sm-6 col-md-6 col-xl-6 col-form-label">Perfil Universitario</label>
+                        </div>
+
+                        <div class = "form-group row">
+
+                            <div class="col col-sm-6 col-md-6 col-xl-6">
+                                <input type = "password" class = "form-control" id = "password">
+                            </div>
+
+                            <div class = "col col-sm-6 col-md-6 col-xl-6">
+                                <select class = "form-control form-select" name = "profile" id = "profile">
+                                    <option value = "student">Alumno</option>
+                                    <option value = "pas">Personal de Administración y Servicios</option>
+                                    <option value = "pdi">Personal Docente e Investigador</option>
+                                    <option value = "oldStudent">Antiguo Alumno</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+                        <div class = "form-group row">
+                            <label for = "confirmPass" class = "col col-sm-6 col-md-6 col-xl-6">Confirmar contraseña</label>
+                            <label for = "nEmployee" class = "offset-2 col-sm-3 col-md-3 col-xl-3">Nº Empleado</label>
+                        </div>
+
+                        <div class = "form-group row">
+
+                            <div class = "col col-sm-6 col-md-6 col-xl-6">
+                                <input type = "password" class = "form-control" id = "confirmPass">
+                            </div>
+
+                            <div class="col col-sm-2 col-md-2 col-xl-2 form-check-inline">
+                                <input type = "checkbox" class = "form-check-input" value = "" id = "technical" name = "technical">
+                                <label for = "technical" class = "form-check-label">Técnico</label>
+                            </div>
+                            
+                            <div class="col col-sm-3 col-md-3 col-xl-3">
+                                <input type = "text" class = "form-control" id = "nEmployee">
+                            </div>
+
+                        </div>
+
+                        <div class = "form-group row">
+                            <label for = "image" class = "col col-sm-12 col-md-12 col-xl-12"> Imágen de perfil </label>
+                        </div>
+
+                        <div class = "form-group row">
+                            <input type = "file" class = "form-">
+                        </div>
+
+                        <div class="form-group row">
+
+                            <div class = "col col-sm-6 col-md-6 col-xl-6">
+                                <button type = "submit" class = "btn btn-primary" id = "btnSignIn"> Crear cuenta </button>
+                            </div>
+                            
+                            <div class="col col-sm-6 col-md-6 col-xl-6">
+                                <button type = "button" class = "btn btn-secondary" id = "btnLogIn"> Iniciar sesión </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </section>
     
