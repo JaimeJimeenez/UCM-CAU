@@ -15,11 +15,19 @@
                 <ul class = "nav nav-tabs me-auto">
 
                     <li class = "nav-item">
+                        <a href = "#incomingNotices" class = "nav-link active" data-bs-toggle = "tab"> Avisos Entrantes </a>
+                    </li>
+
+                    <li class = "nav-item">
                         <a href = "#myNotices" class = "nav-link" data-bs-toggle = "tab"> Mis Avisos </a>
                     </li>
 
                     <li class = "nav-item">
                         <a href = "#noticesHistorical" class = "nav-link" data-bs-toggle = "tab"> Histórico de Avisos </a>
+                    </li>
+
+                    <li class = "nav-item">
+                        <a href = "#userManagement" class = "nav-link" data-bs-toggle = "tab"> Gestión de usuarios </a>
                     </li>
 
                     <form action = "GET" class = "d-flex">
@@ -34,6 +42,28 @@
 
         <section>
             <div class = "tab-content">
+                <div id="incomingNotices" class = "tab-pane active">
+                    <div class="table-responsive">
+                        <table class = "table-hover text-center" style = "width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th> Tipo </th>
+                                    <th> Fecha </th>
+                                    <th> Texto </th>
+                                    <th> Acciones </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td> Ejemplo </td>
+                                    <td> Ejemplo </td>
+                                    <td> Ejemplo </td>
+                                    <td> Ejemplo </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
                 <div id = "myNotices" class = "tab-pane fade">
                     <div class = "table-responsive">
                         <table class = "table-hover text-center" style = "width: 100%;">
@@ -67,6 +97,23 @@
                                     <th> Acciones </th>
                                 </tr>
                             </thead>
+                        </table>
+                    </div>
+                </div>
+                <div id = "userManagement" class = "tab-pane fade">
+                    <div class = "table-responsive">
+                        <table class = "table-hover text-center" style = "width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th> Fecha </th>
+                                    <th> Nombre </th>
+                                    <th> Rol </th>
+                                    <th> Acciones </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
                         </table>
                     </div>
                 </div>

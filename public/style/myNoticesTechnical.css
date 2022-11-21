@@ -1,0 +1,16 @@
+#menu {
+    margin-left: 25%;
+    margin-right: 25%;
+    width: 75%;
+}
+
+#options {
+    margin-left: 5%;
+    border: 2px solid white;
+    border-radius: 10px;;
+}
+
+#navbarCollapse {
+    border: 2px solid b;
+    border-radius: 10px;
+}
