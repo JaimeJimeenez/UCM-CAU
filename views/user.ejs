@@ -1,33 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title> Technical </title>
+    <title> Usuario </title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href = "https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link href = "https://fonts.googleapis.com/icon?family=Material+Icons" rel = "stylesheet">
 </head>
 <body>
     <div class = "container-fluid">
+
         <%- include("header") %>
 
         <section>
             <nav class = "bg-light" role = "tablist">
-                <ul class = "nav nav-tabs me-auto">
+                <ul class = "nav nav-tabs">
 
                     <li class = "nav-item">
-                        <a href = "#myNotices" class = "nav-link" data-bs-toggle = "tab"> Mis Avisos </a>
+                        <a href = "/#myNotices" class = "nav-link" data-bs-toggle = "tab"> Mis Avisos </a>
                     </li>
 
                     <li class = "nav-item">
-                        <a href = "#noticesHistorical" class = "nav-link" data-bs-toggle = "tab"> Histórico de Avisos </a>
+                        <a href = "/#noticesHistorical" class = "nav-link" data-bs-toggle = "tab"> Histórico de Avisos </a>
                     </li>
 
-                    <form action = "GET" class = "d-flex">
-                        <input type = "text" placeholder = "Search" class = "form-control me-2">
-                        <button type = "submit" class = "btn btn-primary"> Buscar </button>
-                    </form>
+                    <li>
+                        <form action = "GET">
+                            <span class="form-group">
+                                <input type = "text" placeholder = "Search">
+                                <button type = "submit" class = "btn btn-primary"> Buscar </button>
+                            </span>
+                        </form>
+                    </li>
+
+                    <li>
+                        <button type = "button" href = "#" class = "btn btn-primary material-icons dropdown-toggle" data-bs-toggle = "dropdown"> add </button>
+                        <ul class = "dropdown-menu">
+                            
+                            <li>
+                                <a href = "#" class = "dropdown-item" data-bs-toggle = "modal" data-bs-target = "#notice"> Sugerencia </a>
+                            </li>   
+                            
+                            <li>
+                                <a href = "#" class = "dropdown-item" data-bs-toggle = "modal" data-bs-target = "#notice"> Incidencia </a>
+                            </li>
+                            
+                            <li>
+                                <a href = "#" class = "dropdown-item" data-bs-toggle = "modal" data-bs-target = "#notice"> Felicitación </a>
+                            </li>
+
+                        </ul>
+                    </li>
+
                 </ul>
-
 
             </nav>
         </section>
@@ -36,25 +61,31 @@
             <div class = "tab-content">
                 <div id = "myNotices" class = "tab-pane fade">
                     <div class = "table-responsive">
-                        <table class = "table-hover text-center" style = "width: 100%;">
+                        <table class = "table-hover text-center w-100">
                             <thead>
                                 <tr>
                                     <th> Tipo </th>
                                     <th> Fecha </th>
                                     <th> Texto </th>
+                                    <th> Técnico </th>
                                     <th> Acciones </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td> </td>
-                                    <td> </td>
-                                    <td> </td>
-                                    <td> </td>
-                                </tr>
+                                <% notices.forEach((notice) => { %>
+                                    <% if (!notice.Done) {%>
+                                    <tr>
+                                        <td> <%= notice.Type %> </td>
+                                        <td> <%= notice.Date %> </td>
+                                        <td> <%= notice.Text %></td>
+                                        <td> <%= notice.Technical %> </td> 
+                                        <td> <button type = "button" href = "#" class = "btn btn-secondary material-icons" data-bs-toggle = "modal" data-bs-target = "#notice"> visibility </button></td>
+                                    </tr>
+                                <% }}); %>
                             </tbody>
                         </table>    
                     </div>
+                    
                 </div>
                 <div id = "noticesHistorical" class = "tab-pane fade">
                     <div class = "table-responsive">
@@ -67,13 +98,53 @@
                                     <th> Acciones </th>
                                 </tr>
                             </thead>
+                            <tbody>
+                                <% notices.forEach((notice) => { %>
+                                    <% if(notice.Done) {%>
+                                    <tr>
+                                        <td> <%= notice.Type %> </td>
+                                        <td> <%= notice.Date %> </td>
+                                        <td> <%= notice.Text %></td>
+                                        <td> <a href = "#" class = "material-icons"> visibility </a> </td> 
+                                    </tr>
+                                <% }}); %>
+                            </tbody>
                         </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class = "modal fade" id = "notice">
+                <div class = "modal-dialog modal-dialog-centered">
+                    <div class = "modal-content">
+
+                        <div class = "modal-header justify-content-center align-items-center text-center text-bg-light">
+                            <h6> Nuevo aviso </h6>
+                        </div>
+
+                        <form method = "POST" action = "newNotice">
+                            
+                            <div class = "form-group modal-body">
+                                <label for = "newNotice" class = "form-label"></label>
+                                <textarea class = "form-control" name = "newNotice" cols="30" rows="10"></textarea>
+                            </div>
+
+                            <div class = "modal-footer">
+                                <button type = "submit" class = "btn btn-primary material-icons"> send </button>
+                            </div>
+
+                        </form>
+
                     </div>
                 </div>
             </div>
         </section>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

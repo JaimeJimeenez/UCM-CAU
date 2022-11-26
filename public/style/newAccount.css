@@ -16,3 +16,8 @@
 #newTitle {
     text-align: center;
 }
+
+#login {
+    text-decoration: none;
+    color: white;
+}

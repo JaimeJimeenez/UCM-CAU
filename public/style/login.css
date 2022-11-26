@@ -60,3 +60,8 @@
     margin-left: auto;
     margin-right: auto;
 }
+
+#newAccount {
+    text-decoration: none;
+    color: white;
+}

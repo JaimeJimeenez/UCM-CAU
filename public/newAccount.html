@@ -11,7 +11,7 @@
 <body>
 
     <div class = "container-fluid">
-        <head>
+        <header>
             <div class = "row p-3 align-items-center bg-light">
                 <div class = "col col-sm-2 col-md-2 col-xl-2">
                     <a href = "#">
@@ -25,7 +25,7 @@
 
             <!-- Dark mode -->
             </div>
-        </head>
+        </header>
 
         <section>
 
@@ -36,7 +36,7 @@
                 </div>
 
                 <div class="row">
-                    <form action = "newAccount" method = "POST">
+                    <form action = "/newAccount" method = "POST">
 
                         <div class = "form-group row">
                             <label for = "email" class = "col col-sm-6 col-md-6 col-xl-6 col-form-label">Email</label>
@@ -46,10 +46,10 @@
                         <div class = "form-group row">
 
                             <div class = "col col-sm-6 col-md-6 col-xl-6">
-                                <input type = "email" class = "form-control" id = "email">
+                                <input type = "email" class = "form-control" id = "email" name = "email">
                             </div>
                             <div class = "col col-sm-6 col-md-6 col-xl-6">
-                                <input type = "text" class = "form-control" id = "name">
+                                <input type = "text" class = "form-control" id = "name" name = "name">
                             </div>
 
                         </div>
@@ -62,15 +62,15 @@
                         <div class = "form-group row">
 
                             <div class="col col-sm-6 col-md-6 col-xl-6">
-                                <input type = "password" class = "form-control" id = "password">
+                                <input type = "password" class = "form-control" id = "password" name = "password">
                             </div>
 
                             <div class = "col col-sm-6 col-md-6 col-xl-6">
                                 <select class = "form-control form-select" name = "profile" id = "profile">
-                                    <option value = "student">Alumno</option>
-                                    <option value = "pas">Personal de Administración y Servicios</option>
-                                    <option value = "pdi">Personal Docente e Investigador</option>
-                                    <option value = "oldStudent">Antiguo Alumno</option>
+                                    <option value = "Alumno">Alumno</option>
+                                    <option value = "PAS">Personal de Administración y Servicios</option>
+                                    <option value = "PDI">Personal Docente e Investigador</option>
+                                    <option value = "Antiguo Alumno">Antiguo Alumno</option>
                                 </select>
                             </div>
 
@@ -84,7 +84,7 @@
                         <div class = "form-group row">
 
                             <div class = "col col-sm-6 col-md-6 col-xl-6">
-                                <input type = "password" class = "form-control" id = "confirmPass">
+                                <input type = "password" class = "form-control" id = "confirmPass" name = "confirmPass">
                             </div>
 
                             <div class="col col-sm-2 col-md-2 col-xl-2 form-check-inline">
@@ -103,7 +103,7 @@
                         </div>
 
                         <div class = "form-group row">
-                            <input type = "file" class = "form-">
+                            <input type = "file" class = "form-control" name = "image">
                         </div>
 
                         <div class="form-group row">
@@ -113,7 +113,9 @@
                             </div>
                             
                             <div class="col col-sm-6 col-md-6 col-xl-6">
-                                <button type = "button" class = "btn btn-secondary" id = "btnLogIn"> Iniciar sesión </button>
+                                <button type = "button" class = "btn btn-secondary" id = "btnLogIn"> 
+                                    <a href = "/login" id = "login"> Iniciar sesión </a>
+                                 </button>
                             </div>
                         </div>
                     </form>

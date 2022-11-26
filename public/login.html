@@ -12,7 +12,8 @@
 <body>
 
     <div class = "container-fluid">
-        <head>
+        <header>
+
             <div class = "row p-3 align-items-center bg-light">
                 <div class = "col col-sm-2 col-md-2 col-xl-2">
                     <a href = "#">
@@ -24,9 +25,8 @@
                 <h6> Centro de Atención al Usuario </h6>
             </div>
 
-            <!-- Dark mode -->
             </div>
-        </head>
+        </header>
     
         <section>
             <div class = "row bg-light box" id = "login">
@@ -45,7 +45,7 @@
                 </div>
 
 
-                <form action = "login" method = "POST">
+                <form action = "/loginUser" method = "POST">
 
                     <div class = "row">
                         <div class = "col col-sm-12 col-md-12 col-xl-12 form-group mb-3 mt-3 input-group input">
@@ -64,7 +64,9 @@
 
                     <div class = "row">
                         <div class = "col col-sm-6 col-md-6 col-xl-6">
-                            <button type = "button" class = "btn btn-secondary"> Nueva cuenta </button>
+                            <button type = "button" class = "btn btn-secondary"> 
+                                <a href = "/newAccount" id = "newAccount"> Nueva Cuenta </a> 
+                            </button>
                         </div>
                         <div class = "col col-sm-6 col-md-6 col-xl-6">
                             <button type = "submit" class = "btn btn-primary"> Iniciar sesión </button>
