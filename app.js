@@ -1,13 +1,30 @@
 "use strict"
 
 const config = require("./config");
-const DAOUsers = require("./DAOUsers");
 const path = require("path");
 const mysql = require("mysql");
 const express = require("express");
 const bodyParser = require("body-parser");
+const morgan = require("morgan");
+
 const fs = require("fs");
-const { timeStamp } = require("console");
+
+// File's modules
+const DAONotices = require("./DAONotices");
+const DAOUser = require("./DAOUser");
+
+// Middleware session
+const session = require("express-session");
+const mysqlSession = require("express-mysql-session");
+const MySQLStore = mysqlSession(session);
+const sessionStore = new MySQLStore(config.mysqlConfig);
+
+const middlewareSession = session( {
+    saveUninitialized: false,
+    secret: "UCM-CAU",
+    resave: false,
+    store: sessionStore
+});
 
 // Create Server
 const app = express();
@@ -17,12 +34,15 @@ app.set("views", path.join(__dirname, "views"));
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use(bodyParser.urlencoded( { extended: false }));
+app.use(morgan("dev"))
+app.use(middlewareSession);
 
 // Create pool's connections to the database
 const pool = mysql.createPool(config.mysqlConfig);
 
 // Create a DAOUsers instance
-const daoUser = new DAOUsers(pool);
+const daoUser = new DAOUser(pool);
+const daoNotice = new DAONotices(pool);
 
 app.get("/", (request, response) => {
     response.status(200);
@@ -32,54 +52,48 @@ app.get("/", (request, response) => {
 // Init Windows
 app.get("/login", (request, response) => {
     response.status(200);
-    response.sendFile(path.join(__dirname, "public", "login.html"));
+    response.render("login", { errorMsg : null });
 });
 
 app.get("/newAccount", (request, response) => {
     response.status(200);
-    response.sendFile(path.join(__dirname, "public", "newAccount.html"));
+    response.render("newAccount");
 });
 
 // Technical
 app.get("/Technical", (request, response) => {
     response.status(200);
-    response.render("technical");
-});
-
-app.get("/Tecnico", (request, response) => {
-    response.status(200);
-    response.redirect("/Technical");
+    response.render("technical", { user : request.session.currentUser, notices : [] });
 });
 
 // User
 app.get("/User", (request, response) => {
     response.status(200);
-    daoUser.getNotices("jaimji01@ucm.es", (err, notices) => {
+    daoUser.getNotices(request.session.currentUser, (err, notices) => {
         if (err) console.log(err);
-        else {
-            console.log(notices);
-            response.render("user", { notices : notices });
-        }
+        else response.render("user", { user: request.session.currentUser, notices : notices });
     });
 });
 
-app.get("/Usuario", (request, response) => {
-    response.status(200);
-    response.redirect("/User");
-});
-
-// log in
+// Log in
 app.post("/loginUser", (request, response) => {
     response.status(200);
-    console.log(request.body.email + "@ucm.es");
-    console.log(request.body.password);
+
     daoUser.login(request.body.email + "@ucm.es", request.body.password, (err, result) => {
+        console.log(request.body);
         if (err) console.log(err);
-        else if (result === undefined) {
-            console.log("Usuario no existe");
+        else if (result === undefined)
+            response.render("login", { errorMsg : "Email y/o contraseña no válidos" });
+        else {
+            request.session.currentUser = request.body.email + "@ucm.es";
+            response.redirect("/User");
         }
-        else response.redirect("/User");
     });
+});
+
+app.get("/logout", (request, response) => {
+    request.session.destroy();
+    response.redirect("/login");
 });
 
 // New Account
@@ -96,20 +110,36 @@ app.post("/newAccount", (request, response) => {
 
     daoUser.insertUser(user, (err) => {
         if (err) console.log(err);
-        else {
-            response.redirect("/login");
-        }
+        else response.redirect("/login");
     });
-});
-
-daoUser.getNotices("jaimji01@ucm.es", (err, notices) => {
-    if (err) console.log(err);
-    else console.log(notices);
 });
 
 app.get("/myNotices", (request, response) => {
     response.status(200);
+});
+
+// New Notice
+app.post("/newNotice", (request, response) => {
+    response.status(200);
+    console.log(request.body.newNotice);
+    response.redirect("/User");
+});
+
+// View Notice
+app.get("/viewNotice/:id", (request, response) => {
+    response.status(200);
+    console.log(request.params.id);
+    daoNotice.getNotice(request.params.id, (err, notice) => {
+        console.log(notice);
+        if (err) console.log(err);
+        else response.render("user", { notice : notice } );
+    });
+});
+
+// Incoming Notices
+app.get("/incomingNotices", (request, response) => {
     console.log("Hola");
+    response.redirect("/Technical");
 });
 
 app.listen(3000, () => {

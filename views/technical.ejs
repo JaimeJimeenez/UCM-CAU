@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href = "https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link href = "https://fonts.googleapis.com/icon?family=Material+Icons" rel = "stylesheet">
+    <link href = "style/user.css" rel="stylesheet">
 </head>
 <body>
     <div class = "container-fluid">
@@ -54,71 +56,32 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td> Ejemplo </td>
-                                    <td> Ejemplo </td>
-                                    <td> Ejemplo </td>
-                                    <td> Ejemplo </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div id = "myNotices" class = "tab-pane fade">
-                    <div class = "table-responsive">
-                        <table class = "table-hover text-center" style = "width: 100%;">
-                            <thead>
-                                <tr>
-                                    <th> Tipo </th>
-                                    <th> Fecha </th>
-                                    <th> Texto </th>
-                                    <th> Acciones </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td> </td>
-                                    <td> </td>
-                                    <td> </td>
-                                    <td> </td>
-                                </tr>
-                            </tbody>
-                        </table>    
-                    </div>
-                </div>
-                <div id = "noticesHistorical" class = "tab-pane fade">
-                    <div class = "table-responsive">
-                        <table class = "table-hover text-center" style = "width: 100%;">
-                            <thead>
-                                <tr>
-                                    <th> Tipo </th>
-                                    <th> Fecha </th>
-                                    <th> Texto </th>
-                                    <th> Acciones </th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
-                </div>
-                <div id = "userManagement" class = "tab-pane fade">
-                    <div class = "table-responsive">
-                        <table class = "table-hover text-center" style = "width: 100%;">
-                            <thead>
-                                <tr>
-                                    <th> Fecha </th>
-                                    <th> Nombre </th>
-                                    <th> Rol </th>
-                                    <th> Acciones </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
+                                <% notices.forEach((notice) => { %>
+                                    <% if (!notice.Done) {%>
+                                    <tr>
+                                        <td> <%= notice.Type %> </td>
+                                        <td> <%= notice.Date %> </td>
+                                        <td> <%= notice.Text %></td>
+                                        <td> <%= notice.Technical %> </td> 
+                                        <td> 
+                                            <button type = "button" class = "btn btn-secondary material-icons" data-bs-toggle = "modal" data-bs-target = "#showNotice"> 
+                                                visibility 
+                                                <a href = "/getNotice/<% notice.Id %>"></a>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                <% }}); %>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
         </section>
+        
+        <section>
+            <%- include("noticesHistorical") %>
+        </section>
+
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>

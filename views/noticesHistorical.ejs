@@ -1,0 +1,27 @@
+<div class="tab-content">
+    <div id = "noticesHistorical" class = "tab-pane fade">
+        <div class = "table-responsive">
+            <table class = "table-hover text-center" style = "width: 100%;">
+                <thead>
+                    <tr>
+                        <th> Tipo </th>
+                        <th> Fecha </th>
+                        <th> Texto </th>
+                        <th> Acciones </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% notices.forEach((notice) => { %>
+                        <% if(notice.Done) {%>
+                        <tr>
+                            <td> <%= notice.Type %> </td>
+                            <td> <%= notice.Date %> </td>
+                            <td> <%= notice.Text %></td>
+                            <td> <a href = "#" class = "material-icons"> visibility </a> </td> 
+                        </tr>
+                    <% }}); %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

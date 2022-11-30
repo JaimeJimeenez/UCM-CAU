@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+
+<html lang = "es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Sign in </title>
+    <link rel = "stylesheet" href = "./style/newAccount.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+</head>
+<body>
+
+    <div class = "container-fluid">
+        <header>
+            <div class = "row p-3 align-items-center bg-light">
+
+                <div class = "col col-sm-2 col-md-2 col-xl-2">
+                    <a href = "#">
+                        <img src = "./images/logo.png" alt = "Logo de la Universidad Complutense de Madrid">
+                    </a>
+                </div>
+
+                <div class = "col offset-2 col-sm-4 col-md-4 col-xl-4" id = "title">
+                    <h3> UCM - CAU </h3>
+                    <h6> Centro de Atención al Usuario </h6>
+                </div>
+            
+            </div>
+        </header>
+
+        <section>
+
+            <!-- Create account -->
+            <div class = "row bg-light mt-4 justify-content-center" id = "newAcc">
+                <div class = "col col-sm-12 col-md-12 col-xl-12 mt-4" id = "newTitle">
+                    <h4> Nueva Cuenta </h4>
+                </div>
+
+                <div class="row">
+                    <form action = "/newAccount" method = "POST">
+
+                        <div class = "form-group row">
+                            <label for = "email" class = "col col-sm-6 col-md-6 col-xl-6 col-form-label">Email</label>
+                            <label for = "name" class = "col col-sm-6 col-md-6 col-xl-6 col-form-label"> Nombre</label>
+                        </div>
+
+                        <div class = "form-group row">
+
+                            <div class = "col col-sm-6 col-md-6 col-xl-6">
+                                <input type = "email" class = "form-control" id = "email" name = "email">
+                            </div>
+                            <div class = "col col-sm-6 col-md-6 col-xl-6">
+                                <input type = "text" class = "form-control" id = "name" name = "name">
+                            </div>
+
+                        </div>
+
+                        <div class = "form-group row">
+                            <label for = "password" class = "col col-sm-6 col-md-6 col-xl-6 col-form-label">Contraseña</label>
+                            <label for = "profile" class = "col col-sm-6 col-md-6 col-xl-6 col-form-label">Perfil Universitario</label>
+                        </div>
+
+                        <div class = "form-group row">
+
+                            <div class="col col-sm-6 col-md-6 col-xl-6">
+                                <input type = "password" class = "form-control" id = "password" name = "password">
+                            </div>
+
+                            <div class = "col col-sm-6 col-md-6 col-xl-6">
+                                <select class = "form-control form-select" name = "profile" id = "profile">
+                                    <option value = "Alumno">Alumno</option>
+                                    <option value = "PAS">Personal de Administración y Servicios</option>
+                                    <option value = "PDI">Personal Docente e Investigador</option>
+                                    <option value = "Antiguo Alumno">Antiguo Alumno</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+                        <div class = "form-group row">
+                            <label for = "confirmPass" class = "col col-sm-6 col-md-6 col-xl-6">Confirmar contraseña</label>
+                            <label for = "nEmployee" class = "offset-2 col-sm-3 col-md-3 col-xl-3">Nº Empleado</label>
+                        </div>
+
+                        <div class = "form-group row">
+
+                            <div class = "col col-sm-6 col-md-6 col-xl-6">
+                                <input type = "password" class = "form-control" id = "confirmPass" name = "confirmPass">
+                            </div>
+
+                            <div class="col col-sm-2 col-md-2 col-xl-2 form-check-inline">
+                                <input type = "checkbox" class = "form-check-input" value = "" id = "technical" name = "technical">
+                                <label for = "technical" class = "form-check-label">Técnico</label>
+                            </div>
+                            
+                            <div class="col col-sm-3 col-md-3 col-xl-3">
+                                <input type = "text" class = "form-control" id = "nEmployee">
+                            </div>
+
+                        </div>
+
+                        <div class = "form-group row">
+                            <label for = "image" class = "col col-sm col-md col-xl"> Imágen de perfil </label>
+                        </div>
+
+                        <div class = "form-group row">
+                            <input type = "file" class = "col col-sm-6 col-md-6 col-xl-6" name = "image">
+                        </div>
+
+                        <div class="form-group row mt-3">
+
+                            <div class = "col col-sm-6 col-md-6 col-xl-6">
+                                <button type = "submit" class = "btn btn-primary" id = "btnSignIn"> Crear cuenta </button>
+                            </div>
+                            
+                            <div class="col col-sm-6 col-md-6 col-xl-6">
+                                <button type = "button" class = "btn btn-secondary" id = "btnLogIn"> 
+                                    <a href = "/login" id = "login"> Iniciar sesión </a>
+                                 </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    
+    </div>
+    
+</body>
+</html>
