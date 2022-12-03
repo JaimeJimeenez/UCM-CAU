@@ -5,13 +5,14 @@ const path = require("path");
 const mysql = require("mysql");
 const express = require("express");
 const bodyParser = require("body-parser");
+const moment = require("moment");
 const morgan = require("morgan");
 
 const fs = require("fs");
 
 // File's modules
-const DAONotices = require("./DAONotices");
-const DAOUser = require("./DAOUser");
+const DAONotices = require("./DAO's/DAONotices");
+const DAOUser = require("./DAO's/DAOUser");
 
 // Middleware session
 const session = require("express-session");
@@ -60,6 +61,8 @@ app.get("/newAccount", (request, response) => {
     response.render("newAccount");
 });
 
+//---------- Technical and Users views ----------
+
 // Technical
 app.get("/Technical", (request, response) => {
     response.status(200);
@@ -75,15 +78,15 @@ app.get("/User", (request, response) => {
     });
 });
 
+// ---------- Log in and New Account -----------
+
 // Log in
 app.post("/loginUser", (request, response) => {
     response.status(200);
 
     daoUser.login(request.body.email + "@ucm.es", request.body.password, (err, result) => {
-        console.log(request.body);
         if (err) console.log(err);
-        else if (result === undefined)
-            response.render("login", { errorMsg : "Email y/o contraseña no válidos" });
+        else if (result === undefined) response.render("login", { errorMsg : "Email y/o contraseña no válidos" });
         else {
             request.session.currentUser = request.body.email + "@ucm.es";
             response.redirect("/User");
@@ -99,20 +102,25 @@ app.get("/logout", (request, response) => {
 // New Account
 app.post("/newAccount", (request, response) => {
     response.status(200);
+    console.log(request.body);
     let user = {
         name : request.body.name,
         email : request.body.email,
         password : request.body.password,
         confirmPass : request.body.confirmPass,
         profile : request.body.profile,
-        date : "2022-12-12"
+        date : moment().format("YY/MM/DD")
     }
 
     daoUser.insertUser(user, (err) => {
         if (err) console.log(err);
-        else response.redirect("/login");
+        else if (user.hasOwnProperty("technical")) response.redirect("/Technical");
+        else response.redirect("/User");
     });
 });
+
+
+// --------- Notices ---------
 
 app.get("/myNotices", (request, response) => {
     response.status(200);

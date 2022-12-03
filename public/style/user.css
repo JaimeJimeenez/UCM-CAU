@@ -7,6 +7,14 @@
     border-radius: 10px;
 }
 
+nav {
+    border-radius: 10px;
+}
+
+.navNotices {
+    padding: 8px;
+}
+
 #name {
     color: black;
     padding: 10px;
