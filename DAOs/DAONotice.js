@@ -40,6 +40,21 @@ class DAONotices {
         });
     }
 
+    search(search, callback) {
+        this.pool.getConnection((err, connection) => {
+            if (err) callback(new Error('Error de conexión a la base de datos: ' + err.message));
+            else {
+                const sql = "SELECT * FROM Notices WHERE instr(Text, ?) > 0;"
+
+                connection.query(sql, [search], (err, notice) => {
+                    connection.release();
+                    if (err) callback(new Error("Error de acceso a la base de datos: " + err.message));
+                    else callback(null, notice);
+                });
+            }
+        });
+    }
+
 }
 
 module.exports = DAONotices;
