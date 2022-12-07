@@ -14,19 +14,15 @@
 
         <div class = "d-flex justify-content-center align-items-center" id = "user">
             <div id = "image">
-                <% if (user.Image) { %>
-                    <img src = "/user/image/<%=user.id%>" alt = "Imagen de usuario" class = "rounded-circle">
-                <%} else { %>
                     <span class = "material-icons rounded-circle"> question_mark </span>
-                <%}%>
             </div>
             <div>
                 <a href = "#" class = "text-decoration-none" id = "name" data-bs-toggle = "modal" data-bs-target = "#profile">
-                    <%= user.Email %>
+                    <%= user.email %>
                 </a>
             </div>
             <div>
-                <a href = "logout" class = "material-icons text-decoration-none rounded-circle" id = "logout">logout</a>
+                <a href = "/user/logout" class = "material-icons text-decoration-none rounded-circle" id = "logout">logout</a>
             </div>
         </div>
     </div>

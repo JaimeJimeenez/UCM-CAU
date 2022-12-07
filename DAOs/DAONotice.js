@@ -10,7 +10,6 @@ class DAONotices {
         this.pool.getConnection((err, connection) => {
             if (err) callback(new Error('Error de conexión a la base de datos: ' + err.message));
             else {
-                let daoUser = new DAOUser(this.pool);
                 daoUser.getUser(email, (err, user) => {
                     if (err) callback(err);
                     else {
@@ -49,34 +48,12 @@ class DAONotices {
         this.pool.getConnection((err, connection) => {
             if (err) callback(new Error('Error de conexión a la base de datos: ' + err.message));
             else {
-                const sql = 'SELECT * FROM Notices WHERE Technical IS NULL;'
+                const sql = 'SELECT * FROM Notices WHERE Done = 0;'
 
                 connection.query(sql, [], (err, notices) => {
                     connection.release();
                     if (err) callback(new Error('Error de acceso a la base de datos:' + err.message));
                     else callback(null, notices);
-                });
-            }
-        });
-    }
-
-    getNoticesHistory(email, callback) {
-        this.pool.getConnection((err, connection) => {
-            if (err) callback(new Error('Error de conexión a la base de datos: ' + err.message));
-            else {
-                const daoUser = new DAOUser(this.pool);
-
-                daoUser.getUser(email, (err, user) => {
-                    if (err) callback(err);
-                    else {
-                        const sql = 'SELECT * FROM Notices JOIN UsersNotices ON UsersNotices.IdNotice = Id AND UsersNotices.IdUser = ? WHERE Done = 1;';
-
-                        connection.query(sql, [user.Id], (err, notices) => {
-                            connection.release();
-                            if (err) callback(new Error('Error de acceso a la base de datos: ' + err.message));
-                            else callback(null, notices);
-                        });
-                    }
                 });
             }
         });

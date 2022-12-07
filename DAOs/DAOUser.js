@@ -74,6 +74,24 @@ class DAOUser {
         });
     }
 
+    getUsers(email, callback) {
+        this.pool.getConnection((err, connection) => {
+            if (err) callback(new Error ('Error de conexión a la base de datos: ' + err.message));
+            else this.getUser(email, (err, user) => {
+                if (err) callback(err);
+                else {
+                    const sql = 'SELECT * FROM Users WHERE Id != ? AND Active = 1;';
+
+                    connection.query(sql, [user.Id], (err, users) => {
+                        connection.release();
+                        if (err) callback(new Error('Error de acceso a la base de datos: ' + err.message));
+                        else callback(null, users);
+                    });
+                }
+            });
+        });
+    }
+
     getImage(id, callback) {
         this.pool.getConnection((err, connection) => {
             if (err) callback(new Error('Error de conexión a la base de datos: ' + err.message));
@@ -92,34 +110,25 @@ class DAOUser {
 
     getNotices(email, callback) {
         this.pool.getConnection((err, connection) => {
-            if (err) callback(new Error("Error de conexión a la base de datos: " + err.message));
-            else this.getUser(email, (err, user) => {
-                if (err) callback(err);
-                else {
-                    const sql = "SELECT * FROM Notices JOIN UsersNotices ON UsersNotices.IdUser = ? AND UsersNotices.IdNotice = Id;";
-
-                    connection.query(sql, [user.Id], (err, notices) => {
-                        connection.release();
-                        if (err) callback(new Error("Error de acceso a la base de datos: " + err.message));
-                        else callback(null, notices);
-                    });
-                }
-            });
-        });
-    }
-
-    getUsers(email, callback) {
-        this.pool.getConnection((err, connection) => {
             if (err) callback(new Error('Error de conexión a la base de datos: ' + err.message));
             else this.getUser(email, (err, user) => {
                 if (err) callback(err);
-                else {
-                    const sql = 'SELECT * FROM Users WHERE Id IS NOT ?;';
+                else if (user.Employee === null) {
 
-                    connection.query(sql, [user.Id], (err, users) => {
+                    const sql = 'SELECT * FROM Notices JOIN UsersNotices ON UsersNotices.IdUser = ? AND UsersNotices.IdNotice = Id;';
+
+                    connection.query(sql, [user.Id], (err, notices) => {
                         connection.release();
                         if (err) callback(new Error('Error de acceso a la base de datos: ' + err.message));
-                        else callback(null, users);
+                        else callback(null, notices);
+                    });
+                } else {
+                    const sql = 'SELECT * FROM Notices WHERE Technical = ?;';
+
+                    connection.query(sql, [user.Id], (err, notices) => {
+                        connection.release();
+                        if (err) callback(new Error('Error de acceso a la base de datos: ' + err.message));
+                        else callback(null, notices);
                     });
                 }
             });

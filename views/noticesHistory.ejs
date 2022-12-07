@@ -1,46 +1,54 @@
+
 <!DOCTYPE html>
 
 <html lang = "es">
 <head>
 
-    <title> Mis Avisos </title>
+    <title> Histórico de Avisos </title>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel = "stylesheet" href = "../style/login.css">
     <link href = "https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link href = "https://fonts.googleapis.com/icon?family=Material+Icons" rel = "stylesheet">
+    <link href = "../style/user.css" rel = "stylesheet">
 
+    <script src = "https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src = "https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
 
     <div class = "container-fluid">
 
         <%- include("partials/header") %>
+
+        <% if (user.employee === null) { %>
+            <%- include ('partials/userNav') %>
+            <%- include ('partials/newNotice') %>
+        <% } else { %>
+            <%- include ('partials/technicalNav') %>
+        <% } %> 
         
         <div id = "myNotices">
-            <div class = "table-responsive">
-                <table class = "table-hover text-center w-100">
+            <div class = "table-responsive d-flex justify-content-center p-3">
+                <table class = "table table-hover text-center w-75">
                     <thead>
                         <tr>
                             <th class = "d-none"> Id </th>
                             <th> Tipo </th>
                             <th> Fecha </th>
                             <th> Texto </th>
-                            <th> Técnico </th>
                             <th> Acciones </th>
                         </tr>
                     </thead>
                     <tbody>
-                        <% notices.forEach((notice) => { %>
-                            <% if (!notice.Done) {%>
+                        <% notices.forEach(notice => { %>
+                            <% if (notice.Done) { %>
                             <tr>
-                                <td class = "d-none" id = "idNotice"> <%=notice.Id%> </td>
+                                <td class = "d-none"> <% notice.Id %> </td>
                                 <td> <%= notice.Type %> </td>
                                 <td> <%= notice.Date %> </td>
-                                <td> <%= notice.Text %></td>
-                                <td> <%= notice.Technical %> </td> 
+                                <td> <%= notice.Text %> </td>
                                 <td>
                                     <a href = "/notices/getNotice/<%=notice.Id%>" class = "material-icons text-decoration-none" id = "notice" data-bs-toggle = "modal" data-bs-target = "#showNotice"> visibility </a>
                                 </td>

@@ -13,47 +13,6 @@
         <%- include("partials/header") %>
 
         <main>
-            <section>
-                <nav class = "mt-5 p-2 bg-light">
-                    <div class = "row">
-
-                        <div class="col col-sm-2 col-md-2 col-xl-2 text-center">
-                            <a href = "/notices/incomingNotices" class = "nav-link navNotices"> Avisos Entrantes </a>
-                        </div>
-
-                        <div class = "col col-sm-2 col-md-2 col-xl-2 text-center">
-                            <a href = "/#myNotices" class = "nav-link navNotices"> Mis Avisos </a>
-                        </div>
-    
-                        <div class = "col col-sm-2 col-md-2 col-xl-2 text-center">
-                            <a href = "/#noticesHistory" class = "nav-link navNotices"> Histórico de Avisos </a>
-                        </div>
-
-                        <div class = "col col-sm-2 col-md-2 col-xl-2 text-center">
-                            <a href = "/user/managementUsers" class = "nav-link navNotices"> Gestión de usuarios </a>
-                        </div>
-    
-                        <div class = "col col-sm-4 col-md-4 col-xl-4">
-    
-                            <form method = "GET" action = "/notices/search">
-                                <div class = "row">
-                                    <div class = "col col-sm-3 col-md-3 col-xl-3 navNotices">
-                                        <label for = "user"> Usuario </label>
-                                        <input type = "checkbox" values = "yes" name = "user">
-                                    </div>
-                                    <div class = "col col-sm-5 col-md-5 col-xl-5">
-                                        <input type = "text" class = "form-control" placeholder = "Search" name = "search">
-                                    </div>
-                                    <div class = "col col-sm-2 col-md-2 col-xl-2">
-                                        <button type = "submit" class = "btn btn-primary" id = "btnNotice"> Buscar </button>
-                                    </div>
-                                </div>
-                            </form>                            
-                           
-                        </div>
-                    </div>
-                </nav>
-            </section>
 
             <section>
                 <%- include("partials/profile") %>
@@ -82,9 +41,7 @@
                                         <td> <%= notice.Date %> </td>
                                         <td> <%= notice.Text %></td>
                                         <td> <%= notice.Technical %> </td> 
-                                        <td>
-                                            <a href = "/notices/getNotice/<%=notice.Id%>" class = "material-icons text-decoration-none" id = "notice" data-bs-toggle = "modal" data-bs-target = "#showNotice"> visibility </a>
-                                        </td>
+                                        
                                     </tr>
                                 <% }}); %>
                             </tbody>
