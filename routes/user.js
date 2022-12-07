@@ -9,28 +9,38 @@ const express = require('express');
 const expressValidator = require('express-validator');
 const mysql = require('mysql');
 const path = require('path');
-//const multer = require('multer');
+const multer = require('multer');
 const moment = require('moment');
 const router = express.Router();
 
+const multerFactory = multer({ storage : multer.memoryStorage() });
+
 router.use(expressValidator());
+router.use(express.json());
+router.use()
+router.use((request, response, next) => {
+    response.locals.user = request.session.user;
+    next();
+});
 
 const pool = mysql.createPool(config.mysqlConfig);
 
 const yetLogIn = (request, response, next) => {
-    if (!request.session.currentUser) response.redirect('/user/login');
+    if (!request.session.user) response.redirect('/user/login');
     else next();
 };
 
 const alreadyLogIn = (request, response, next) => {
-    if (request.session.currentUser) response.redirect('/user/main');
+    if (request.session.user) response.redirect('/user/main');
     else next();
 }
 
 // DAO's Instances
 const daoUser = new DAOUser(pool);
+const daoNotice = new DAONotice(pool);
 
-router.get('/', (request, response, next) => {
+// ------------------------------------------
+router.get('/', (request, response) => {
     response.status(200);
     response.redirect('/user/login');
 });
@@ -43,11 +53,10 @@ router.get('/login', alreadyLogIn, (request, response) => {
 
 router.post('/login', (request, response, next) => {
     daoUser.login(request.body.email + '@ucm.es', request.body.password, (err, user) => {
-        if (err) next();
+        if (err) next(err);
         else if (user) {
-            request.session.currentUser = request.body.email + '@ucm.es';
-            if (user['employee'] !== null) response.render('technical'); // TODO
-            else response.redirect('/user/main');
+            request.session.user = user;
+            response.redirect('/user/main');
         } else {
             response.status(401);
             response.render('login', { errorMsg : "Email y/o contraseña incorrectos"});
@@ -66,61 +75,81 @@ router.get('/newAccount', alreadyLogIn, (request, response) => {
     response.render('newAccount', { errorMsg : null });
 });
 
-router.post('/newAccount', (request, response, next) => {
+router.post('/newAccount', multerFactory.single('image'), (request, response, next) => {
     let user = {
-        name : request.body.name,
-        email : request.body.email,
-        password : request.body.password,
-        confirmPass : request.body.confirmPass,
-        image: request.body.image,
-        date : moment().format('YY/MM/DD')
+        Name : request.body.name,
+        Email : request.body.email,
+        Password : request.body.password,
+        ConfirmPass : request.body.confirmPass,
+        Image: null,
+        Date : moment().format('YY/MM/DD')
     };
 
-    if (!request.body.technical) user.profile = request.body.profile;
-    else user.employee = request.body.employee;
+    if (request.file) user.Image = request.file.buffer;
 
-    daoUser.insertUser(user, (err) => {
+    if (!request.body.technical) user.Profile = request.body.profile;
+    else user.Employee = request.body.employee;
+
+    daoUser.insertUser(user, (err, id) => {
         if (err) next(err);
         else {
-            request.session.currentUser = user.email;
-            response.locals.user = user;
-            if (user.hasOwnProperty('employee')) response.render('technical', { notices : []});
-            else response.redirect('/user/main');
+            user.Id = id;
+            request.session.user = user;
+            response.redirect('/user/main');
         }
     });
 
 });
 
+router.get('/image/:id', (request, response) => {
+    let id = Number(request.params.id);
+    if (isNaN(id)) {
+        response.status(400);
+        response.end('Petición incorrecta');
+    } else {
+        daoUser.getImage(id, (err, image) => {
+            if (image) response.end(image);
+            else {
+                response.status(404);
+                response.end('Not found');
+            }
+        });
+    }
+});
+
 // Main Window
 router.get('/main', yetLogIn, (request, response, next) => {
-    daoUser.getNotices(request.session.currentUser, (err, notices) => {
+    response.status(200);
+    daoUser.getUser(request.session.user.Email, (err, user) => {
         if (err) next(err);
-        else daoUser.getUser(request.session.currentUser, (err, user) => {
-            if (err) next(err);
-            else {               
+        else {
+            daoUser.getNotices(user.Email, (err, notices) => {
                 const congrats = notices.filter(notice => notice.Type === 'Felicitación');
-                const suggest = notices.filter(notice => notice.Type === 'Sugerencia');
-                const incident = notices.filter(notice => notice.Type === 'Incidencia');
-
-                response.locals.user = {
-                    name: user.Name,
-                    email : user.Email,
-                    password: user.Password,
-                    profile: user.Employee === null ? 'Usuario' : 'Técnico',
-                    date : user.Date // Format DD-MM-YY HH-MM
-                }
+                const suggests = notices.filter(notice => notice.Type === 'Sugerencia');
+                const incidents = notices.filter(notice => notice.Type === 'Incidencia');
 
                 response.locals.notices = notices;
                 response.locals.congrats = congrats.length;
-                response.locals.suggests = suggest.length;
-                response.locals.incidents = incident.length;
+                response.locals.suggests = suggests.length;
+                response.locals.incidents = incidents.length;
 
-                if (user['Employee']) response.render('technical');
-                else response.render('user');
-            } 
-            
-        });
+                if (user['Employee'] === null) response.render('user');
+                else response.render('technical');
+            });
+        }
     });
+});
+
+// Management Users
+router.get('/managementUser', yetLogIn, (request, response, next) => {
+    response.status(200);
+    daoUser.getUsers((err, users) => {
+        if (err) next(err);
+        else {
+            console.log(users);
+            response.render('technical', { users : users });
+        }
+    }) 
 });
 
 module.exports = { router, pool, yetLogIn };

@@ -2,54 +2,184 @@
 <html lang = "es">
 <head>
     <title> Usuario </title>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <link href = "https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link href = "https://fonts.googleapis.com/icon?family=Material+Icons" rel = "stylesheet">
     <link href = "../style/user.css" rel = "stylesheet">
+
+    <script src = "https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src = "https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script type = "application/javascript">
+
+        $(function() {
+         $("#notice").on("click", function() {
+             let id = $("#idNotice").text();
+             $.ajax({
+                 method : "GET",
+                 url: "/notices/getNotice/" + id,
+                 success: function(data, textStatus, jqXHR) {
+                    console.log(data);
+                    
+                    $("noticeFunction").text("Tipo: " + data.notice.FunctionType + ": " + data.notice.Function);
+                    $("#noticeDate").text("Fecha: " + data.notice.Date);
+                    $("noticeProfile").text(data.notice);
+                 },
+                 error: function( jqXHR, textStatus, errorThrown) {
+                     alert('Se ha producido un error: ' + errorThrown);
+                 }
+             });
+         });
+        });
+
+        $(function() {
+            $("#type").change(() => {
+                if (($('select[id = type]').val()) === "Felicitación") {
+                    let functions = ["Archivo Universitario", "Asesoría Jurídica", "Biblioteca", "Centro de Información", "Departamentos docentes", "Inspección de Servicios", "Oficina de Gestión de Infraestructuras y Mantenimiento", "Servicio de Administración", "Servicios Informáticos", "Servicio de Documentación", "Servicio de Imprenta", "Servicio de Cafetería", "Toda la Universidad"];
+                    
+                    $("#typeFunction").attr("disabled", "disabled");
+                    $("#function").empty();
+                    functions.forEach(f => {
+                        $("#function").append("<option value= " + f + "> " + f + "</option>");    
+                    });
+                } 
+                else {
+                    $("#function").empty();
+                    $("#typeFunction").removeAttr("disabled");
+                }
+            });
+        });
+
+        function studentFunctions() {
+            const student = new Map();
+            const administration = ["Certificado digital de personal física", "Registro electrónico", "Sede electrónica"];
+            const comunications = ["Correo electrónico", "Google Meet", "Cuenta de Alumno"];
+            const conectivity = ["Cortafuegos corporativo", "VPN Acceso remoto", "Wifi Eduroam (ssid: eduroam)"];
+            const docency = ["Aula virtual", "Moodle: Aula Global", "Plataforma de cursos online Privados"];
+            const web = ["Portal de eventos"];
+
+            student.set('Administración Digital', administration);
+            student.set('Comunicaciones', comunications);
+            student.set('Conectividad', conectivity);
+            student.set('Docencia', docency);
+            student.set('Web', web);
+
+            return student;
+        }
+
+        function pasFunctions() {
+            const pas = new Map();
+            const administration = ["Certificado digital de personal física", "Certificado electrónico de empleado público", "Registro electrónico", "Sede electrónica", "Portafirmas"];
+            const comunications = ["Correo electrónico", "Google Meet", "Cuenta del personal", "Cuenta genérica"];
+            const conectivity = ["Cuenta as la Red SARA", "Conexión por cable en despachos", "Cortafuegos corporativo", "Resolución de nombres de dominio (DNS)", "VPN Acceso remoto", "Wifi Eduroam (ssid: eduroam)", "Wifi para visitantes (ssid: UCM-Visitantes"];
+            const docency = [ "Blackboard Collaborate", "Listados de clase", "Moodle: Aula Global"];
+            const web = ["Analítica Web","Emisión de certficado SSL", "Hosting: alojamiento de páginas web", "Portal de eventos", "Redirecciones web"];
+            
+            pas.set('Administración Digital', administration);
+            pas.set('Comunicaciones', comunications);
+            pas.set('Conectividad', conectivity);
+            pas.set('Docencia', docency);
+            pas.set('Web', web);
+
+            return pas;
+        }
+
+        function pdiFunctions() {
+            const pdi = new Map();
+            const administration = ["Certificado digital de personal física", "Certificado electrónico de empleado público", "Registro electrónico", "Sede electrónica", "Portafirmas"];
+            const comunications = ["Correo electrónico", "Google Meet", "Cuenta del personal", "Cuenta genérica"];
+            const conectivity = ["Conexión por cable en despachos", "Cortafuegos corporativo", "VPN Acceso remoto", "Wifi Eduroam (ssid: eduroam)", "Wifi para visitantes (ssid: UCM-Visitantes"];
+            const docency = ["Aula Virtual" , "Blackboard Collaborate", "Listados de clase", "Moodle: Aula Global"];
+            const web = ["Analítica Web","Emisión de certficado SSL", "Hosting: alojamiento de páginas web", "Portal de eventos", "Redirecciones web"];
+            
+            pdi.set('Administración Digital', administration);
+            pdi.set('Comunicaciones', comunications);
+            pdi.set('Conectividad', conectivity);
+            pdi.set('Docencia', docency);
+            pdi.set('Web', web);
+
+            return pdi;
+        }
+
+        function oldStudentFunctions() {
+            const oldStudent = new Map();
+            const administration = ["Registro electrónico", "Sede electrónica"];
+            const comunications = ["Correo electrónico", "Google Meet", "Cuenta de Alumno"];
+            const conectivity = [];
+            const docency = [];
+            const web = ["Portal de eventos"];
+
+            oldStudent.set('Administración Digital', administration);
+            oldStudent.set('Comunicaciones', comunications);
+            oldStudent.set('Conectividad', conectivity);
+            oldStudent.set('Docencia', docency);
+            oldStudent.set('Web', web);
+
+            return oldStudent;
+        }
+
+        $(function() {
+            $("#typeFunction").change(() => {
+                let functions = [];
+                let notIn = [];
+                let profile = $("#profileUser").text();
+                console.log(profile);
+
+                let student = studentFunctions();
+                let pas = pasFunctions();
+                let pdi = pdiFunctions();
+                let oldStudent = oldStudentFunctions();
+
+                const map = new Map();
+                map.set("Alumno", student);
+                map.set("PAS", pas);
+                map.set("PDI", pdi);
+                map.set("Antiguo Alumno", oldStudent);
+
+                functions = map.get(profile).get($("select[id = typeFunction").val());
+                console.log(functions);
+
+                $("#function").empty();
+                functions.forEach(f => {
+                    console.log(f);
+                    $("#function").append("<option value= '" + f + "'> " + f + "</option>");    
+                });
+
+            });
+        });
+
+     </script>
 </head>
 <body>
     <div class = "container-fluid">
 
-        <%- include("header") %>
+        <%- include("partials/header") %>
 
         <main>
             <section>
                 <nav class = "mt-5 p-2 bg-light">
+
                     <div class = "row">
-                        <div class = "col col-sm-1 col-md-1 col-xl-1">
-                            <button type = "button" href = "#" class = "btn btn-primary dropdown-toggle" data-bs-toggle = "dropdown"> Nuevo Aviso </button>
-                            <ul class = "dropdown-menu">
-                                
-                                <li>
-                                    <a href = "#" class = "dropdown-item" data-bs-toggle = "modal" data-bs-target = "#newNotice"> Sugerencia </a>
-                                </li>   
-                                
-                                <li>
-                                    <a href = "#" class = "dropdown-item" data-bs-toggle = "modal" data-bs-target = "#newNotice"> Incidencia </a>
-                                </li>
-                                
-                                <li>
-                                    <a href = "#" class = "dropdown-item" data-bs-toggle = "modal" data-bs-target = "#newNotice"> Felicitación </a>
-                                </li>
-    
-                            </ul>
+                        <div class = "col col-sm-2 col-md-2 col-xl-2">
+                            <button type = "button" href = "#" class = "btn btn-primary" data-bs-toggle = "modal" data-bs-target = "#newNotice"> Nuevo Aviso </button>
                         </div>
     
-                        <div class = "col col-sm-2 col-md-2 col-xl-2 text-center">
-                            <a href = "/#myNotices" class = "nav-link navNotices"> Mis Avisos </a>
+                        <div class = "col col-sm-2 col-md-2 col-xl-2">
+                            <a href = "/notices/myNotices" class = "nav-link navNotices" data-toggle = 'tab'> Mis Avisos </a>
                         </div>
     
-                        <div class = "col col-sm-2 col-md-2 col-xl-2 text-center">
-                            <a href = "/#noticesHistorical" class = "nav-link navNotices"> Histórico de Avisos </a>
+                        <div class = "col col-sm-2 col-md-2 col-xl-2">
+                            <a href = "/notices/noticesHistory" class = "nav-link navNotices"> Histórico de Avisos </a>
                         </div>
     
-                        <div class = "col offset-3 col-sm-4 col-md-4 col-xl-4">
+                        <div class = "col offset-2 col-sm-4 col-md-4 col-xl-4">
     
-                            <form method = "GET" action = "/search">
+                            <form method = "GET" action = "/notices/search">
                                 <div class = "row">
                                     <div class = "col col-sm-9 col-md-9 col-xl-9">
-                                        <input type = "text" class = "form-control" placeholder = "Search">
+                                        <input type = "text" class = "form-control" placeholder = "Search" name = "search">
                                     </div>
                                     <div class = "col col-sm-2 col-md-2 col-xl-2">
                                         <button type = "submit" class = "btn btn-primary" id = "btnNotice"> Buscar </button>
@@ -61,112 +191,18 @@
                     </div>
                 </nav>
             </section>
-    
-            <section>
-                <div class = "modal fade" id = "newNotice">
-                    <div class = "modal-dialog modal-xl modal-dialog-centered">
-                        <div class = "modal-content">
-    
-                            <div class = "modal-header justify-content-center align-items-center text-center text-bg-light">
-                                <h6> Nuevo aviso </h6>
-                            </div>
-    
-                            <form method = "POST" action = "newNotice">
-    
-                                <div class = "modal-body">
-                                    <div class = "form-group row align-items-center d-flex justify-content-center">
-                                    
-                                        <div class = "col col-sm-1 col-md-1 col-xl-1 text-center">
-                                            <label for = "function"> Función: </label>
-                                        </div>
-        
-                                        <div class = "col col-sm-3 col-md-3 col-xl-3">
-                                            <select name = "function" class = "form-control form-select" id = "functions">
-                                                <option value = ""> </option>
-                                                <option value = "administration">Administración Digital </option>
-                                                <option value = "comunications"> Comunicaciones </option>
-                                                <option value = "conectivity"> Conectividad </option>
-                                                <option value = "docency"> Docencia </option>
-                                                <option value = "web"> Web </option>
-                                            </select>
-                                        </div>
-                                        
-                                        <div class = "col col-sm-1 col-md-1 col-xl-1">
-                                            <label for = "description"> Descripción: </label>
-                                        </div>
-        
-                                        <div class = "col col-sm-3 col-md-3 col-xl-3">
-                                            <select name = "description" id = "" class = "form-control form-select">
-                                                <option value = ""> </option>
-                                            </select>
-                                        </div>
-                                    </div>
-    
-                                    <div class = "row">
-                                        Textarea
-                                    </div>
-                                </div>
-                            
-                                <div class = "modal-footer">
-                                    <button type = "submit" class = "material-icons btn btn-primary" id = "newNotice"> send </button>
-                                </div>
-                            </form>
-    
-                        </div>
-                    </div>
-                </div>
-            </section>
-    
-            <section>
-                <%- include("profile") %>
-            </section>
 
             <section>
-                    <div id = "myNotices">
-                        <div class = "table-responsive">
-                            <table class = "table-hover text-center w-100">
-                                <thead>
-                                    <tr>
-                                        <th> Tipo </th>
-                                        <th> Fecha </th>
-                                        <th> Texto </th>
-                                        <th> Técnico </th>
-                                        <th> Acciones </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <% notices.forEach((notice) => { %>
-                                        <% if (!notice.Done) {%>
-                                        <tr>
-                                            <td> <%= notice.Type %> </td>
-                                            <td> <%= notice.Date %> </td>
-                                            <td> <%= notice.Text %></td>
-                                            <td> <%= notice.Technical %> </td> 
-                                            <td> 
-                                                <button type = "button" href = "/getNotices/<% notice.Id %>" class = "btn btn-secondary material-icons" data-bs-toggle = "modal" data-bs-target = "#showNotice">
-                                                    visibility 
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    <% }}); %>
-                                </tbody>
-                            </table>    
-                        </div>
-                    </div>
-                
+                <%- include("partials/profile") %>
             </section>
-
+    
             <section>
-
+                <%- include("partials/newNotice") %>
             </section>
+            
         </main>
         
     </div>
 
-    <script src = "https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        
-    </script>
 </body>
 </html>

@@ -12,15 +12,17 @@
             <h6> Centro de Atención al Usuario </h6>
         </div>
 
-        <div class = "d-flex align-items-center" id = "user">
+        <div class = "d-flex justify-content-center align-items-center" id = "user">
             <div id = "image">
-                <a href = "">
-                    <img src = "/images/noUser.png" alt = "Imagen de usuario" class = "rounded-circle">
-                </a>
+                <% if (user.Image) { %>
+                    <img src = "/user/image/<%=user.id%>" alt = "Imagen de usuario" class = "rounded-circle">
+                <%} else { %>
+                    <span class = "material-icons rounded-circle"> question_mark </span>
+                <%}%>
             </div>
             <div>
                 <a href = "#" class = "text-decoration-none" id = "name" data-bs-toggle = "modal" data-bs-target = "#profile">
-                    <%= user.email %>
+                    <%= user.Email %>
                 </a>
             </div>
             <div>

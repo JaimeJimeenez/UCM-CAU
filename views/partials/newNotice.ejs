@@ -1,0 +1,85 @@
+<div class = "modal fade p-5" id = "newNotice">
+    <div class = "modal-dialog modal-xl modal-dialog-centered">
+        <div class = "modal-content">
+
+            <div class = "modal-header justify-content-center align-items-center text-center text-bg-light">
+                <h6> Nuevo aviso </h6>
+            </div>
+
+            <form class = "form-inline" method = "POST" action = "/notices/newNotice">
+
+                <div class = "modal-body">
+                    <div class = "row align-items-center d-flex justify-content-center">
+                            
+                        <div class = "col col-sm col-md col-xl">
+                            <div class = "row align-items-center form-group">
+
+                                <div class = "col col-sm-5 col-md-5 col-xl-5">
+                                    <label for = "type"> Tipo de Aviso: </label>
+                                </div>
+
+                                <div class = "col col-sm-6 col-md-6 col-xl-6">
+                                    <select class = "form-control form-select" name = "type" id = "type">
+                                        <option value = "Sugerencia"> Sugerencia </option>
+                                        <option value = "Incidencia"> Incidencia </option>
+                                        <option value = "Felicitación"> Felicitación </option>
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class = "col col-sm col-md col-xl">
+
+                            <div class = "row align-items-center form-group">
+
+                                <div class = "col col-sm-5 col-md-5 col-xl-5">
+                                    <label for = "typeFunction"> Tipo de Función: </label>
+                                </div>
+
+                                <div class = "col col-sm-6 col-md-6 col-xl-6">
+                                    <select name = "typeFunction" class = "form-control form-select" id = "typeFunction">
+                                        <option value = "Administración Digital">Administración Digital </option>
+                                        <option value = "Comunicaciones"> Comunicaciones </option>
+                                        <option value = "Conectividad"> Conectividad </option>
+                                        <option value = "Docencia"> Docencia </option>
+                                        <option value = "Web"> Web </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class = "col col-sm col-md col-xl">
+
+                            <div class = "row align-items-center form-group">
+
+                                <div class = "col col-sm-4 col-md-4 col-xl-4">
+                                    <label for = "function"> Función: </label>
+                                </div>
+
+                                <div class = "col col-sm-6 col-md-6 col-xl-6">
+                                    <select name = "function" class = "form-control form-select" id = "function">
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                        
+                    </div>
+
+                    <div class = "row mt-5 mb-5">
+                        <label for = "noticeContent"></label>
+                        <textarea id = "noticeContent" name = "noticeContent" rows="3" cols="10" class = "form-control"> </textarea>
+                    </div>
+                </div>
+            
+                <div class = "modal-footer">
+                    <button type = "submit" class = "material-icons btn btn-primary" id = "newNotice"> send </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+

@@ -10,7 +10,7 @@
 </head>
 <body>
     <div class = "container-fluid">
-        <%- include("header") %>
+        <%- include("partials/header") %>
 
         <main>
             <section>
@@ -18,7 +18,7 @@
                     <div class = "row">
 
                         <div class="col col-sm-2 col-md-2 col-xl-2 text-center">
-                            <a href = "/#incomingNotices" class = "nav-link navNotices"> Avisos Entrantes </a>
+                            <a href = "/notices/incomingNotices" class = "nav-link navNotices"> Avisos Entrantes </a>
                         </div>
 
                         <div class = "col col-sm-2 col-md-2 col-xl-2 text-center">
@@ -26,23 +26,23 @@
                         </div>
     
                         <div class = "col col-sm-2 col-md-2 col-xl-2 text-center">
-                            <a href = "/#noticesHistorical" class = "nav-link navNotices"> Histórico de Avisos </a>
+                            <a href = "/#noticesHistory" class = "nav-link navNotices"> Histórico de Avisos </a>
                         </div>
 
                         <div class = "col col-sm-2 col-md-2 col-xl-2 text-center">
-                            <a href = "/managementUsers" class = "nav-link navNotices"> Gestión de usuarios </a>
+                            <a href = "/user/managementUsers" class = "nav-link navNotices"> Gestión de usuarios </a>
                         </div>
     
                         <div class = "col col-sm-4 col-md-4 col-xl-4">
     
-                            <form method = "GET" action = "/search">
+                            <form method = "GET" action = "/notices/search">
                                 <div class = "row">
                                     <div class = "col col-sm-3 col-md-3 col-xl-3 navNotices">
                                         <label for = "user"> Usuario </label>
                                         <input type = "checkbox" values = "yes" name = "user">
                                     </div>
                                     <div class = "col col-sm-5 col-md-5 col-xl-5">
-                                        <input type = "text" class = "form-control" placeholder = "Search">
+                                        <input type = "text" class = "form-control" placeholder = "Search" name = "search">
                                     </div>
                                     <div class = "col col-sm-2 col-md-2 col-xl-2">
                                         <button type = "submit" class = "btn btn-primary" id = "btnNotice"> Buscar </button>
@@ -55,11 +55,56 @@
                 </nav>
             </section>
 
+            <section>
+                <%- include("partials/profile") %>
+            </section>
+
+            <section>
+                <div id = "myNotices">
+                    <div class = "table-responsive">
+                        <table class = "table-hover text-center w-100">
+                            <thead>
+                                <tr>
+                                    <th class = "d-none"> Id </th>
+                                    <th> Tipo </th>
+                                    <th> Fecha </th>
+                                    <th> Texto </th>
+                                    <th> Técnico </th>
+                                    <th> Acciones </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% notices.forEach((notice) => { %>
+                                    <% if (!notice.Done) {%>
+                                    <tr>
+                                        <td class = "d-none" id = "idNotice"> <%=notice.Id%> </td>
+                                        <td> <%= notice.Type %> </td>
+                                        <td> <%= notice.Date %> </td>
+                                        <td> <%= notice.Text %></td>
+                                        <td> <%= notice.Technical %> </td> 
+                                        <td>
+                                            <a href = "/notices/getNotice/<%=notice.Id%>" class = "material-icons text-decoration-none" id = "notice" data-bs-toggle = "modal" data-bs-target = "#showNotice"> visibility </a>
+                                        </td>
+                                    </tr>
+                                <% }}); %>
+                            </tbody>
+                        </table>    
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <!-- My Notices -->
+            </section>
+
+            <section>
+                <!-- History Notices -->
+            </section>
+
+            <section>
+                <!-- Management Users -->
+            </section>
         </main>
-        
-        <section>
-            <%- include("noticesHistorical") %>
-        </section>
 
     </div>
 
