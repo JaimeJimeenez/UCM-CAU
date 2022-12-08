@@ -134,6 +134,29 @@ class DAOUser {
             });
         });
     }
+
+    deleteUser(id, callback) {
+        this.pool.getConnection((err, connection) => {
+            if (err) callback(new Error('Error de conexión a la base de datos: ' + err.message));
+            else {
+                let sql = 'SELECT * FROM Users WHERE Id = ? AND Active = 1;';
+
+                connection.query(sql, [id], (err, user) => {
+                    if (err) callback(new Error('Error de acceso a la base de datos: ' + err.message));
+                    else if (user === null) callback(new Error('Error: el usuario no existe'));
+                    else {
+                        sql = "UPDATE Users SET Active = 0 WHERE Id = ?;";
+                        
+                        connection.query(sql, [id], (err) => {
+                            connection.release();
+                            if (err) callback(new Error('Error de acceso a la base de datos: ' + err.message));
+                            else callback(null);
+                        });
+                    }
+                });
+            }
+        });
+    }
 }
 
 module.exports = DAOUser;

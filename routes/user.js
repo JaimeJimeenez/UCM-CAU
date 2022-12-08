@@ -88,4 +88,13 @@ router.get('/managementUsers', yetLogIn, (request, response, next) => {
     });
 });
 
+router.get('/deleteUser/:id', yetLogIn, (request, response, next) => {
+    response.status(200);
+
+    daoUser.deleteUser(request.params.id, (err) => {
+        if (err) next(err);
+        else response.redirect('/user/managementUsers');
+    });
+});
+
 module.exports = { router, pool, yetLogIn };
