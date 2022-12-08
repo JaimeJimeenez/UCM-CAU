@@ -135,6 +135,21 @@ class DAOUser {
         });
     }
 
+    search(id, name, callback) {
+        this.pool.getConnection((err, connection) => {
+            if (err) callback(new Error('Error de conexión a la base de datos: ' + err.message));
+            else {
+                const sql = 'SELECT * FROM Users WHERE instr(Name, ?) > 0 AND Id != ?;';
+
+                connection.query(sql, [name, id], (err, users) => {
+                    connection.release();
+                    if (err) callback(new Error('Error de acceso a la base de datos: ' + err.message));
+                    else callback(null, users);
+                });
+            }
+        });
+    }
+
     deleteUser(id, callback) {
         this.pool.getConnection((err, connection) => {
             if (err) callback(new Error('Error de conexión a la base de datos: ' + err.message));

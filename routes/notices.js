@@ -47,4 +47,20 @@ router.get('/incomingNotices', userRouter.yetLogIn, (request, response, next) =>
     });
 });
 
+router.get('/search', userRouter.yetLogIn, (request, response, next) => {
+    response.status(200);
+    console.log(request.query);
+    daoUser.getNotices(request.session.user.email, (err, notices) => {
+        if (err) next(err);
+        else if (request.query.hasOwnProperty('user')) daoUser.search(request.session.user.id, request.query.search, (err, search) => {
+            if (err) next(err);
+            else response.render('search', { notices : notices, search : search, searchUser : true });
+        });
+        else daoNotice.search(request.query.search, (err, search) => {
+            if (err) next(err);
+            else response.render('search', { notices : notices, search : search, searchUser : false });
+        });
+    });
+});
+
 module.exports = { router };
