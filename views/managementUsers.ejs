@@ -21,12 +21,8 @@
     <div class = "container-fluid">
 
         <%- include("partials/header") %>
-
-        <% if (user.employee === null) { %>
-            <%- include ('partials/userNav') %>
-        <% } else { %>
-            <%- include ('partials/technicalNav') %>
-        <% } %> 
+        <%- include ('partials/technicalNav') %>
+        <%- include ('partials/profile') %>
         
         <div id = "myNotices">
             <div class = "table-responsive d-flex justify-content-center p-3">

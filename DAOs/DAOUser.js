@@ -63,12 +63,27 @@ class DAOUser {
         this.pool.getConnection((err, connection) => {
             if (err) callback(new Error("Error de conexión a la base de datos: " + err.message));
             else {
-                const sql = "SELECT * FROM Users WHERE Email = ?;";
+                const sql = "SELECT * FROM Users WHERE Email = ? AND Active = 1;";
 
                 connection.query(sql, [email], (err, user) => {
                     connection.release();
                     if (err) callback(new Error('Error de acceso a la base de datos: ' + err.message));
                     else callback(null, user[0]);
+                });
+            }
+        });
+    }
+
+    getTechnicals(callback) {
+        this.pool.getConnection((err, connection) => {
+            if (err) callback(new Error('Error de conexión a la base de datos: ' + err.message));
+            else {
+                const sql = 'SELECT * FROM Users WHERE Employee IS NOT NULL AND Active = 1;';
+
+                connection.query(sql, [], (err, technicals) => {
+                    connection.release();
+                    if (err) callback(new Error('Error de acceso a la base de datos: ' + err.message));
+                    else callback(null, technicals);
                 });
             }
         });

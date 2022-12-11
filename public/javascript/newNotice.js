@@ -1,32 +1,6 @@
 'use strict'
 
 $(function() {
-    $("ewNoticeButton").on("click" ,function() {
-        console.log("Hola quiero dormir");
-    });
-})
-
-$(function() {
-    $("#notice").on("click", function() {
-        let id = $("#idNotice").text();
-        $.ajax({
-            method : "GET",
-            url: "/notices/getNotice/" + id,
-            success: function(data, textStatus, jqXHR) {
-               console.log(data);
-               
-               $("noticeFunction").text("Tipo: " + data.notice.FunctionType + ": " + data.notice.Function);
-               $("#noticeDate").text("Fecha: " + data.notice.Date);
-               $("noticeProfile").text(data.notice);
-            },
-            error: function( jqXHR, textStatus, errorThrown) {
-                alert('Se ha producido un error: ' + errorThrown);
-            }
-        });
-    });
-});
-
-$(function() {
     $("#type").change(() => {
         if (($('select[id = type]').val()) === "Felicitación") {
             let functions = ["Archivo Universitario", "Asesoría Jurídica", "Biblioteca", "Centro de Información", "Departamentos docentes", "Inspección de Servicios", "Oficina de Gestión de Infraestructuras y Mantenimiento", "Servicio de Administración", "Servicios Informáticos", "Servicio de Documentación", "Servicio de Imprenta", "Servicio de Cafetería", "Toda la Universidad"];

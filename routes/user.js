@@ -54,6 +54,7 @@ router.post('/login', alreadyLogIn, (request, response, next) => {
         if (err) next(err);
         else if (user) {
             let currentUser = {
+                id : user.Id,
                 name : user.Name,
                 email : user.Email,
                 password : user.Password,
@@ -83,7 +84,11 @@ router.get('/managementUsers', yetLogIn, (request, response, next) => {
         if (err) next(err);
         else daoUser.getUsers(request.session.user.email, (err, users) => {
             if (err) next(err);
-            else response.render('managementUsers', { notices : notices, users : users });
+            else { 
+                notices.map(notice => notice.Date = moment(notice.Date).format('DD/MM/YYYY'));
+                users.map(user => user.Date = moment(user.Date).format('DD/MM/YYYY'));
+                response.render('managementUsers', { notices : notices, users : users });
+            }
         });
     });
 });

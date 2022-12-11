@@ -28,6 +28,8 @@
         <% } else { %>
             <%- include ('partials/technicalNav') %>
         <% } %> 
+
+        <%- include ('partials/profile') %>
         
         <div id = "myNotices">
             <div class = "table-responsive d-flex justify-content-center p-3">
@@ -50,7 +52,7 @@
                                 <td> <%= notice.Date %> </td>
                                 <td> <%= notice.Text %> </td>
                                 <td>
-                                    <a href = "/notices/getNotice/<%=notice.Id%>" class = "material-icons text-decoration-none" id = "notice" data-bs-toggle = "modal" data-bs-target = "#showNotice"> visibility </a>
+                                    <a href = "/notices/getNotice/<%=notice.Id%>" class = "material-icons text-decoration-none" id = "notice" data-bs-toggle = "modal" data-bs-target = "#showModal"> visibility </a>
                                 </td>
                             </tr>
                         <% }}); %>
@@ -60,25 +62,28 @@
         </div>
     </div>
     
-</body>
-</html>
-
-<div class = "modal fade" id = "showNotice">
-    <div class = "modal-dialog modal-xl modal-dialog-centered">
-        <div class = "modal-content">
-
-            <div class ="modal-header d-flex justify-content-center align-items-center text-center">
-                
-            </div>
-            
-            <div class="modal-body">
-                <div class = "row d-flex justify-content-between">
-                    <div class = "col col-sm col-md col-xl" id = "noticeDate"></div>
-                    <div class = "col col-sm col-md col-xl" id = "noticeFunction"></div>
-                    <div class = "col col-sm col-md col-xl" id = "noticeProfile"></div>
-                </div> 
+    <div class = "modal fade" id = "showModal">
+        <div class = "modal-dialog modal-xl modal-dialog-centered">
+            <div class = "modal-content">
+    
+                <div class = "modal-header d-flex justify-content-center">
+                    <h4> Asignar aviso </h4>
+                </div>
+    
+                <div class = "modal-body">
+                    
+                    <%- include('partials/noticeInfo') %>
+                    
+                    <div class = "row align-items-center"> Comentarios del técnico: </div>
+                    <div class = "row" id = "commentsTechnical"> La cuenta ha sido creada. A partir de ahora podéis utilizar la cuenta ciberseguridad@ucm.es.
+                        Gracias por utilizar este servicio</div>
+                </div>
+    
+                <div class = "modal-footer">
+                    <button type = "button" class = "btn btn-primary" data-bs-dismiss = "modal"> Cerrar </button>
+                </div>
             </div>
         </div>
-
     </div>
-</div>
+</body>
+</html>
