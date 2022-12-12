@@ -1,6 +1,6 @@
 <header>
     <div class = "p-2 d-flex justify-content-between align-items-center bg-light">
-        
+        <% console.log(user) %>
         <div id = "logo">
             <a href = "#">
                 <img src = "/images/logo.png" alt = "Logo de la Universidad Complutense de Madrid">
@@ -14,7 +14,11 @@
 
         <div class = "d-flex justify-content-center align-items-center" id = "user">
             <div id = "image">
-                    <span class = "material-icons rounded-circle"> question_mark </span>
+                <% if (user.image) { %>
+                    <img src = "/user/image" alt = 'Foto de perfil' class = "rounded-circle"></a>
+                <% } else { %>
+                    <img src = "/images/noUser.png" alt = "Foto de perfil alternativa" class = "rounded-circle"></a>
+                <% } %>
             </div>
             <div>
                 <a href = "#" class = "text-decoration-none" id = "name" data-bs-toggle = "modal" data-bs-target = "#profile">

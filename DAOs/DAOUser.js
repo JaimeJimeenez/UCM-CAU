@@ -8,7 +8,7 @@ class DAOUser {
         this.pool.getConnection((err, connection) => {
             if (err) callback(new Error("Error de conexión a la base de datos: " + err.message));
             else {
-                const sql = "SELECT * FROM Users WHERE Email = ? AND Password = ?";
+                const sql = "SELECT * FROM Users WHERE Email = ? AND Password = ?;";
 
                 connection.query(sql, [user, password], (err, result) => {
                     connection.release();
@@ -25,7 +25,7 @@ class DAOUser {
             else {
                 if (user.hasOwnProperty("employee")) {
                     const sql = "INSERT INTO Users (Name, Email, Password, Employee, Image, Date) VALUES (?, ?, ?, ?, ?, ?);";
-                    console.log(user);
+                    
                     connection.query(sql, [user.name, user.email, user.password, user.employee, user.image, user.date], (err, newUser) => {
                         connection.release();
                         if (err) callback(new Error("Error de acceso a la base de datos: " + err.message));
@@ -78,7 +78,7 @@ class DAOUser {
         this.pool.getConnection((err, connection) => {
             if (err) callback(new Error('Error de conexión a la base de datos: ' + err.message));
             else {
-                const sql = 'SELECT * FROM Users WHERE Employee IS NOT NULL AND Active = 1;';
+                const sql = 'SELECT Id, Name FROM Users WHERE Employee IS NOT NULL AND Active = 1;';
 
                 connection.query(sql, [], (err, technicals) => {
                     connection.release();
@@ -116,7 +116,7 @@ class DAOUser {
                 connection.query(sql, [id], (err, image) => {
                     connection.release();
                     if (err) callback(new Error('Error de acceso a la base de datos: ' + err.message));
-                    else if (image.length === 0) callback('No existe');
+                    else if (image.length === 0) callback(new Error('No existe'));
                     else callback(null, image[0].Image);
                 });
             }
@@ -130,7 +130,7 @@ class DAOUser {
                 if (err) callback(err);
                 else if (user.Employee === null) {
 
-                    const sql = 'SELECT * FROM Notices JOIN UsersNotices ON UsersNotices.IdUser = ? AND UsersNotices.IdNotice = Id;';
+                    const sql = 'SELECT Notices.Id, Notices.Type, Notices.Text, Notices.FunctionType, Notices.Function, Notices.Date, Notices.Done, Notices.Active, Users.Name AS Technical FROM Notices JOIN UsersNotices ON UsersNotices.IdUser = ? AND UsersNotices.IdNotice = Id LEFT JOIN Users ON Users.Id = Notices.Technical';
 
                     connection.query(sql, [user.Id], (err, notices) => {
                         connection.release();
@@ -138,7 +138,7 @@ class DAOUser {
                         else callback(null, notices);
                     });
                 } else {
-                    const sql = 'SELECT * FROM Notices WHERE Technical = ?;';
+                    const sql = 'SELECT Notices.Id, Notices.Type, Notices.Text, Notices.FunctionType, Notices.Function, Notices.Date, Notices.Done, Notices.Active, Users.Name AS Username FROM Notices JOIN UsersNotices ON UsersNotices.IdNotice = Id JOIN Users ON UsersNotices.IdUser = Users.Id WHERE Notices.Technical = ?;';
 
                     connection.query(sql, [user.Id], (err, notices) => {
                         connection.release();

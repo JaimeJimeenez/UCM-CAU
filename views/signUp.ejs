@@ -2,11 +2,14 @@
 
 <html lang = "es">
 <head>
+    <title> Sign up </title>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Sign in </title>
+
     <link rel = "stylesheet" href = "../style/newAccount.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    
     <script type = "application/javascript">
         $(function() {
             $("#profile").on('change', () => {
@@ -45,11 +48,24 @@
                 </div>
 
                 <div class="row">
-                    <form action = "newAccount" method = "POST" enctype = "multipart/form-data">
+                    <form action = "signUp" method = "POST" enctype = "multipart/form-data">
 
                         <div class = "form-group row">
-                            <label for = "email" class = "col col-sm-6 col-md-6 col-xl-6 col-form-label">Email</label>
-                            <label for = "name" class = "col col-sm-6 col-md-6 col-xl-6 col-form-label"> Nombre</label>
+
+                            <div class = "col col-sm-6 col-md-6 col-xl-6 col-form-label">
+                                <label for = "email" class = "col col-sm-6 col-md-6 col-xl-6 col-form-label">Email</label>
+                                <% if (errors.email) { %>
+                                    <span class = "red"> <%= errors.email.msg %> </span>
+                                <% } %>
+                            </div>
+
+                            <div class = "col col-sm-6 col-md-6 col-xl-6 col-form-label">
+                                <label for = "name" class = "col col-sm-6 col-md-6 col-xl-6 col-form-label"> Nombre</label>
+                                <% if (errors.name) { %>
+                                    <span class = "red"> <%= errors.name.msg %> </span>
+                                <% } %>
+                            </div>
+
                         </div>
 
                         <div class = "form-group row">

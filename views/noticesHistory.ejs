@@ -15,6 +15,8 @@
 
     <script src = "https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src = "https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src = "/javascript/newNotice.js"></script>
+    <script src = "/javascript/showNotice.js"></script>
 </head>
 <body>
 
@@ -23,10 +25,10 @@
         <%- include("partials/header") %>
 
         <% if (user.employee === null) { %>
-            <%- include ('partials/userNav') %>
-            <%- include ('partials/newNotice') %>
+            <%- include ('partials/navbars/userNav') %>
+            <%- include ('partials/notices/newNotice') %>
         <% } else { %>
-            <%- include ('partials/technicalNav') %>
+            <%- include ('partials/navbars/technicalNav') %>
         <% } %> 
 
         <%- include ('partials/profile') %>
@@ -47,12 +49,12 @@
                         <% notices.forEach(notice => { %>
                             <% if (notice.Done) { %>
                             <tr>
-                                <td class = "d-none"> <% notice.Id %> </td>
+                                <td class = "d-none idNotice" id = 'nNotice'> <%= notice.Id %> </td>
                                 <td> <%= notice.Type %> </td>
                                 <td> <%= notice.Date %> </td>
                                 <td> <%= notice.Text %> </td>
                                 <td>
-                                    <a href = "/notices/getNotice/<%=notice.Id%>" class = "material-icons text-decoration-none" id = "notice" data-bs-toggle = "modal" data-bs-target = "#showModal"> visibility </a>
+                                    <a href = "#" class = "material-icons text-decoration-none" id = "notice" data-bs-toggle = "modal" data-bs-target = "#showModal"> visibility </a>
                                 </td>
                             </tr>
                         <% }}); %>
@@ -67,16 +69,13 @@
             <div class = "modal-content">
     
                 <div class = "modal-header d-flex justify-content-center">
-                    <h4> Asignar aviso </h4>
+                    <h4> Ver aviso ( <span id = "numberNotice"></span> ) </h4>
                 </div>
     
                 <div class = "modal-body">
-                    
-                    <%- include('partials/noticeInfo') %>
-                    
+                    <%- include('partials/notices/noticeInfo') %>
                     <div class = "row align-items-center"> Comentarios del técnico: </div>
-                    <div class = "row" id = "commentsTechnical"> La cuenta ha sido creada. A partir de ahora podéis utilizar la cuenta ciberseguridad@ucm.es.
-                        Gracias por utilizar este servicio</div>
+                    <div class = "row" id = "commentsTechnical"></div>
                 </div>
     
                 <div class = "modal-footer">

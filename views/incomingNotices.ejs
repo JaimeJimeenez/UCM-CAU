@@ -15,7 +15,7 @@
 
     <script src = "https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src = "https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
-
+    <script src = "/javascript/showNotice.js"></script>
     <script type = "application/javascript">
     </script>
 </head>
@@ -24,7 +24,7 @@
     <div class = "container-fluid">
 
         <%- include("partials/header") %>
-        <%- include ('partials/technicalNav') %>
+        <%- include ('partials/navbars/technicalNav') %>
         <%- include ('partials/profile') %>
         
         <div id = "incomingNotices">
@@ -32,6 +32,7 @@
                 <table class = "table table-hover text-center w-75">
                     <thead>
                         <tr>
+                            <th class = "d-none"> Id </th>
                             <th> Tipo </th>
                             <th> Fecha </th>
                             <th> Texto </th>
@@ -39,14 +40,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <% incomingNotices.forEach((notice, index) => { %>
+                        <% incomingNotices.forEach(notice => { %>
                             <tr>
+                                <td class = "d-none idNotice" id = "nNotice"> <%= notice.Id %></td>
                                 <td> <%= notice.Type %> </td>
                                 <td> <%= notice.Date %> </td>
                                 <td> <%= notice.Text %> </td>
                                 <td>
-                                    <a href = "#" class = "material-icons text-decoration-none" id = "assign" data-bs-toggle = "modal" data-bs-target = "#assignModal"> engineering </a>
-                                    <a href = "#" class = "material-icons text-decoration-none" id = "delete" data-bs-toggle = "modal" data-bs-target = "#deleteModal"> delete </a>
+                                    <% if (notice.Technical === null) { %>
+                                        <a href = "#" class = "material-icons text-decoration-none notice" data-bs-toggle = "modal" data-bs-target = "#assignModal"> engineering </a>
+                                    <% } else { %>
+                                        <a href = "#" class = "material-icons text-decoration-none nav-link"> engineering </a>
+                                    <% } %>
+                                    <a href = "#" class = "material-icons text-decoration-none notice" data-bs-toggle = "modal" data-bs-target = "#deleteModal"> delete </a>
                                 </td>
                             </tr>
                         <% }); %>
@@ -62,27 +68,25 @@
                     <div class = "modal-header d-flex justify-content-center">
                         <h4> Asignar aviso </h4>
                     </div>
-        
-                    <div class = "modal-body">
+                    
+                    <form action = "/notices/assignNotice">
+                        <div class = "modal-body">
                         
-                        <%- include('partials/noticeInfo') %>
-        
-                        <div class = "mt-3 d-flex justify-content-center">
-                            <div class = "w-25">
-                                <div class = "row align-items-center text-center">
-                                    <div class = "col col-sm-3 col-md-3 col-xl-3">Técnico:</div>
-                                    <div class = "col col-sm col-md col-xl">
-                                        <select name = "technicals" id = "technicals" class = "form-control form-select">
-                                        </select>
-                                    </div>
+                            <%- include('partials/notices/noticeInfo') %>
+
+                            <div class = "row d-flex justify-content-center align-items-center">
+                                Técnico:
+                                <div class = "col col-sm-3 col-md-3 col-xl-3">
+                                    <select name = "technicals" id = "technicals" class = "form-select"></select>
                                 </div>
                             </div>
                         </div>
-                    </div>
-        
-                    <div class = "modal-footer">
-                        <button type = "button" class = "material-icons btn btn-primary">send</button>
-                    </div>
+            
+                        <div class = "modal-footer">
+                            <button type = "submit" class = "material-icons btn btn-primary">send</button>
+                        </div>
+                    </form>
+                    
                 </div>
             </div>
         </div>
@@ -96,7 +100,7 @@
                     </div>
                     
                     <div class = "modal-body">
-                        <%- include('partials/noticeInfo') %>
+                        <%- include('partials/notices/noticeInfo') %>
                     </div>
                     
 

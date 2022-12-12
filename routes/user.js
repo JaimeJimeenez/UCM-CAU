@@ -4,9 +4,9 @@
 const config = require('../config');
 const DAOUser = require('../DAOs/DAOUser');
 const DAONotice = require('../DAOs/DAONotice');
+//const signUpValidator = require('../validators/user');
 
 const express = require('express');
-const expressValidator = require('express-validator');
 const mysql = require('mysql');
 const path = require('path');
 const multer = require('multer');
@@ -52,7 +52,7 @@ router.post('/login', alreadyLogIn, (request, response, next) => {
     response.status(200);
     daoUser.login(request.body.email + '@ucm.es', request.body.password, (err, user) => {
         if (err) next(err);
-        else if (user) {
+        else if (user.Active) {
             let currentUser = {
                 id : user.Id,
                 name : user.Name,
@@ -60,12 +60,17 @@ router.post('/login', alreadyLogIn, (request, response, next) => {
                 password : user.Password,
                 profile : user.Profile,
                 employee : user.Employee,
-                date : user.Date
+                date : user.Date,
+                image : user.Image
             };
 
             request.session.user = currentUser;
             response.redirect('/notices/myNotices');
-        } else {
+        } else if (!user.Active) {
+            response.status(401);
+            response.render('login', { errorMsg : 'El usuario ha sido eliminado. Contacta con el centro para más información.' });
+        }
+        else {
             response.status(401);
             response.render('login', { errorMsg : 'Email y/o contraseña incorrectos' });
         }
@@ -75,6 +80,39 @@ router.post('/login', alreadyLogIn, (request, response, next) => {
 router.get('/logout', yetLogIn, (request, response) => {
     request.session.destroy();
     response.redirect('/user/login');
+});
+
+router.get('/signUp', alreadyLogIn, (request, response) => {
+    response.status(200);
+    response.render('signUp');
+});
+
+router.post('/newAccount', multerFactory.single('image'), (request, response, next) => {
+    response.status(200);
+
+});
+
+router.get('/image', yetLogIn, (request, response, next) => {
+    let id = request.session.user.id;
+    if (isNaN(id)) {
+        response.status(400);
+        response.end('Petición incorrecta');
+    } else daoUser.getImage(id, (err, image) => {
+        if (err) next(err);
+        else if (image) response.end(image);
+    });
+});
+
+router.get('/getTechnicals', yetLogIn, (request, response, next) => {
+    response.status(200);
+
+    daoUser.getTechnicals((err, technicals) => {
+        if (err) {
+            response.status(400);
+            response.end();
+        }
+        else response.json({ technicals : technicals });
+    });
 });
 
 router.get('/managementUsers', yetLogIn, (request, response, next) => {

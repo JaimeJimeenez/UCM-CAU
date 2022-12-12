@@ -38,7 +38,8 @@ router.get('/noticesHistory', userRouter.yetLogIn, (request, response, next) => 
         if (err) next(err);
         else {
             notices.map(notice => notice.Date = moment(notice.Date).format('DD/MM/YYYY'));
-            response.render('noticesHistory', { notices : notices });
+            response.locals.notices = notices;
+            response.render('noticesHistory');
         }
     });
 });
@@ -53,14 +54,28 @@ router.get('/incomingNotices', userRouter.yetLogIn, (request, response, next) =>
                 if (err) next(err);
                 else {
                     incomingNotices.map(notice => notice.Date = moment(notice.Date).format('DD/MM/YYYY'));
-                    daoUser.getTechnicals((err, technicals) => {
-                        if (err) next(err);
-                        else response.render('incomingNotices', { notices : notices, incomingNotices : incomingNotices, technicals : technicals });
-                    });
+                    response.render('incomingNotices', { notices : notices, incomingNotices : incomingNotices });
                 } 
             });
         }
     });
+});
+
+router.get('/getNotice/:id', userRouter.yetLogIn, (request, response, next) => {
+    response.status(200);
+    let id = Number(request.params.id);
+    if (!isNaN(id) && id >= 0) {
+        daoNotice.getNotice(id, (err, notice) => {
+            if (err) next(err);
+            else {
+                notice.Date = moment(notice.Date).format('DD/MM/YYYY');
+                response.json( { notice : notice });
+            }
+        });
+    } else {
+        response.status(400);
+        response.end();
+    }
 });
 
 router.get('/search', userRouter.yetLogIn, (request, response, next) => {
@@ -97,6 +112,17 @@ router.post('/newNotice', userRouter.yetLogIn, (request, response, next) => {
     }
 
     daoNotice.newNotice(request.session.user.email, notice, (err) => {
+        if (err) next(err);
+        else response.redirect('/notices/myNotices');
+    });
+});
+
+router.post('/finishNotice', userRouter.yetLogIn, (request, response, next) => {
+    response.status(200);
+    let id = request.body.numberNotice;
+    let comment = request.body.commentNotice;
+    
+    daoNotice.finishNotice(id, comment, (err) => {
         if (err) next(err);
         else response.redirect('/notices/myNotices');
     });
