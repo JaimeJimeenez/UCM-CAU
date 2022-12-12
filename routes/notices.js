@@ -52,10 +52,13 @@ router.get('/incomingNotices', userRouter.yetLogIn, (request, response, next) =>
             notices.map(notice => notice.Date = moment(notice.Date).format('DD/MM/YYYY'));
             daoNotice.getIncomingNotices((err, incomingNotices) => {
                 if (err) next(err);
-                else {
-                    incomingNotices.map(notice => notice.Date = moment(notice.Date).format('DD/MM/YYYY'));
-                    response.render('incomingNotices', { notices : notices, incomingNotices : incomingNotices });
-                } 
+                else daoUser.getTechnicals((err, technicals) => {
+                    if (err) next(err);
+                    else {
+                        incomingNotices.map(notice => notice.Date = moment(notice.Date).format('DD/MM/YYYY'));
+                        response.render('incomingNotices', { notices : notices, incomingNotices : incomingNotices, technicals : technicals });
+                    }
+                });
             });
         }
     });
@@ -67,10 +70,13 @@ router.get('/getNotice/:id', userRouter.yetLogIn, (request, response, next) => {
     if (!isNaN(id) && id >= 0) {
         daoNotice.getNotice(id, (err, notice) => {
             if (err) next(err);
-            else {
-                notice.Date = moment(notice.Date).format('DD/MM/YYYY');
-                response.json( { notice : notice });
-            }
+            else daoNotice.getTechnicalByNotice(id, (err, technical) => {
+                if (err) next(err);
+                else {
+                    notice.Date = moment(notice.Date).format('DD/MM/YYYY');
+                    response.json( { notice : notice, technical : technical });
+                }
+            });
         });
     } else {
         response.status(400);
@@ -114,6 +120,15 @@ router.post('/newNotice', userRouter.yetLogIn, (request, response, next) => {
     daoNotice.newNotice(request.session.user.email, notice, (err) => {
         if (err) next(err);
         else response.redirect('/notices/myNotices');
+    });
+});
+
+router.post('/assignNotice', userRouter.yetLogIn, (request, response, next) => {
+    response.status(200);
+    
+    daoNotice.assignNotice(request.body.technicals, request.body.numberNotice, (err) => {
+        if (err) next(err);
+        else response.redirect('/notices/incomingNotices');
     });
 });
 

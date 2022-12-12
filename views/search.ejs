@@ -23,10 +23,10 @@
         <%- include("partials/header") %>
 
         <% if (user.employee === null) { %>
-            <%- include ('partials/userNav') %>
-            <%- include ('partials/newNotice') %>
+            <%- include ('partials/navbars/userNav') %>
+            <%- include ('partials/notices/newNotice') %>
         <% } else { %>
-            <%- include ('partials/technicalNav') %>
+            <%- include ('partials/navbars/technicalNav') %>
         <% } %> 
         
         <div id = "searchResults">

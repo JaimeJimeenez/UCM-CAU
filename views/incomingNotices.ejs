@@ -12,12 +12,12 @@
     <link href = "https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link href = "https://fonts.googleapis.com/icon?family=Material+Icons" rel = "stylesheet">
     <link href = "../style/user.css" rel = "stylesheet">
+    <link href = "../style/notice.css" rel="stylesheet">
 
     <script src = "https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src = "https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src = "/javascript/showNotice.js"></script>
-    <script type = "application/javascript">
-    </script>
+
 </head>
 <body>
 
@@ -69,7 +69,7 @@
                         <h4> Asignar aviso </h4>
                     </div>
                     
-                    <form action = "/notices/assignNotice">
+                    <form action = "/notices/assignNotice" method = "POST">
                         <div class = "modal-body">
                         
                             <%- include('partials/notices/noticeInfo') %>
@@ -77,7 +77,11 @@
                             <div class = "row d-flex justify-content-center align-items-center">
                                 Técnico:
                                 <div class = "col col-sm-3 col-md-3 col-xl-3">
-                                    <select name = "technicals" id = "technicals" class = "form-select"></select>
+                                    <select name = "technicals" id = "technicals" class = "form-select">
+                                        <% technicals.forEach(technical => { %>
+                                            <option value = "<%= technical.Id %>"> <%= technical.Name %></option>
+                                        <% }); %>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -99,14 +103,16 @@
                         <h4> Eliminar aviso </h4>
                     </div>
                     
-                    <div class = "modal-body">
-                        <%- include('partials/notices/noticeInfo') %>
-                    </div>
-                    
-
-                    <div class = "modal-footer">
-                        <button type = "button" class = "btn btn-primary material-icons">send</button>
-                    </div>
+                    <form action = "/notices/deleteNotice" method = "POST">
+                        <div class = "modal-body">
+                            <%- include('partials/notices/noticeInfo') %>
+                        </div>
+                        
+    
+                        <div class = "modal-footer">
+                            <button type = "button" class = "btn btn-primary material-icons">send</button>
+                        </div>
+                    </form>
         
                 </div>
             </div>

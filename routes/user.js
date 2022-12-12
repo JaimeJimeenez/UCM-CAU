@@ -60,7 +60,7 @@ router.post('/login', alreadyLogIn, (request, response, next) => {
                 password : user.Password,
                 profile : user.Profile,
                 employee : user.Employee,
-                date : user.Date,
+                date : moment(user.Date).format('DD/MM/YYYY'),
                 image : user.Image
             };
 
@@ -100,18 +100,6 @@ router.get('/image', yetLogIn, (request, response, next) => {
     } else daoUser.getImage(id, (err, image) => {
         if (err) next(err);
         else if (image) response.end(image);
-    });
-});
-
-router.get('/getTechnicals', yetLogIn, (request, response, next) => {
-    response.status(200);
-
-    daoUser.getTechnicals((err, technicals) => {
-        if (err) {
-            response.status(400);
-            response.end();
-        }
-        else response.json({ technicals : technicals });
     });
 });
 
