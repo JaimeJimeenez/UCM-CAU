@@ -17,7 +17,7 @@ class DAONotices {
                     else {
                         const sql = 'INSERT INTO Notices (Type, Text, FunctionType, Function, Date, Done, Active)  VALUES (?, ?, ?, ?, ?, ?, ?);';
 
-                        connection.query(sql, [notice.type, notice.text, notice.typeFunction, notice.function, notice.date, 0, 1], (err, result) => {
+                        connection.query(sql, [notice.type, notice.text, notice.functionType, notice.function, notice.date, 0, 1], (err, result) => {
                             connection.release();
                             if (err) callback(new Error('Error de acceso a la base de datos: ' + err.message));
                             else daoUser.insertUserNotice(user.Id, result.insertId, (err) => {

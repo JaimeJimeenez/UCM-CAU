@@ -4,6 +4,7 @@ $(function() {
     $('.notice').on('click', (e) => {
         e.preventDefault();
         const id = e.target.parentNode.parentNode.children[0].textContent;
+        console.log(id);
         $.ajax({
             method: 'GET',
             url: 'getNotice/' + id,

@@ -8,7 +8,7 @@ $(function() {
             $("#typeFunction").attr("disabled", "disabled");
             $("#function").empty();
             functions.forEach(f => {
-                $("#function").append("<option value= " + f + "> " + f + "</option>");    
+                $("#function").append("<option value= '" + f + "'> " + f + "</option>");    
             });
         } 
         else {

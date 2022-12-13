@@ -112,10 +112,12 @@ router.post('/newNotice', userRouter.yetLogIn, (request, response, next) => {
     let notice = {
         type : request.body.type,
         function : request.body.function,
-        functionType : request.body.hasOwnProperty('functionType') ? request.body.functionType : null,
+        functionType : request.body.hasOwnProperty('typeFunction') ? request.body.typeFunction : null,
         text : request.body.noticeContent,
         date : moment().format('YY-MM-DD'),
     }
+
+    console.log(notice);
 
     daoNotice.newNotice(request.session.user.email, notice, (err) => {
         if (err) next(err);
