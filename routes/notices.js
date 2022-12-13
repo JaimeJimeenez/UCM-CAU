@@ -117,8 +117,6 @@ router.post('/newNotice', userRouter.yetLogIn, (request, response, next) => {
         date : moment().format('YY-MM-DD'),
     }
 
-    console.log(notice);
-
     daoNotice.newNotice(request.session.user.email, notice, (err) => {
         if (err) next(err);
         else response.redirect('/notices/myNotices');

@@ -16,7 +16,10 @@
             $('#profile').on('change', () => {
                 let profile = $('select[id = profile]').val();
                 if (profile === 'PDI') $('#isTechnical').removeClass('d-none');
-                else $('#isTechnical').addClass('d-none');
+                else {
+                    $('#isTechnical').addClass('d-none');
+                    $('.nEmployee').addClass('d-none');
+                }
             });
         });
 

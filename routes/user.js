@@ -94,13 +94,15 @@ router.get('/signIn', alreadyLogIn, (request, response) => {
 });
 
 router.post('/signIn',
-    check("email", "Dirección de correo no válido").isEmpty(),
-    check("name", "Nombre de usuario vacío").isEmpty(),
-    multerFactory.single('image'), (request, response, next) => {
+    check("email", "Dirección de correo no válido").notEmpty(),
+    check("name", "Nombre de usuario vacío").notEmpty(),
+    multerFactory.single('image'), (request, response) => {
 
         response.status(200);
-        const errors = validationResult(request);
-        if (errors['errors'].length !== 0) response.render('signIn', { errors : errors.mapped()});
+        const errors = validationResult(request); 
+        console.log(request);
+        console.log(errors);
+        if (!errors.isEmpty()) response.render('signIn', { errors : errors.mapped()});
         else {
             let user = {
                 email : request.body.email,
@@ -109,13 +111,13 @@ router.post('/signIn',
                 profile : request.body.profile,
                 image : null,
                 date: moment().format('YY-MM-DD')
-            }
+            };
             
             if (request.file) user.image = request.file.buffer;
             if (request.body.technical === 'on') user.employee = request.body.nEmployee;
 
             daoUser.insertUser(user, (err) => {
-                if (err) next(err);
+                if (err) console.log(err);
                 else response.redirect('/user/login');
             }); 
         }
