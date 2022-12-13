@@ -7,9 +7,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel = "stylesheet" href = "../style/signUp.css">
+    <link rel = "stylesheet" href = "../style/signIn.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type = 'application/javascript'>
+        $(function() {
+            $('#profile').on('change', () => {
+                let profile = $('select[id = profile]').val();
+                if (profile === 'PDI') $('#isTechnical').removeClass('d-none');
+                else $('#isTechnical').addClass('d-none');
+            });
+        });
+
+        $(function() {
+            $('#technical').on('click', () => {
+                if ($('input:checkbox[name=technical]:checked').val() === 'on') $('.nEmployee').removeClass('d-none');
+                else $('.nEmployee').addClass('d-none'); 
+            });
+        });
+    </script>
 </head>
 <body>
 
@@ -46,7 +63,7 @@
 
                             <div class = "col col-sm-6 col-md-6 col-xl-6 col-form-label">
                                 <label for = "email" class = "col col-sm-6 col-md-6 col-xl-6 col-form-label">Email</label>
-                                
+
                             </div>
 
                             <div class = "col col-sm-6 col-md-6 col-xl-6 col-form-label">
@@ -60,9 +77,11 @@
 
                             <div class = "col col-sm-6 col-md-6 col-xl-6">
                                 <input type = "email" class = "form-control" id = "email" name = "email">
+                                <div id="emailHelp" class = "form-text">El email introducido debe de corresponder a uno de la UCM.</div>
                             </div>
                             <div class = "col col-sm-6 col-md-6 col-xl-6">
                                 <input type = "text" class = "form-control" id = "name" name = "name">
+                                <div id = "nameHelp" class = "form-text"> Campo obligatorio </div>
                             </div>
 
                         </div>
@@ -76,6 +95,7 @@
 
                             <div class="col col-sm-6 col-md-6 col-xl-6">
                                 <input type = "password" class = "form-control" id = "password" name = "password">
+                                <div id = "passwordHelp" class = "form-text"> Entre 6 y 8 caracteres, al menos: 1 dígito, 1 minúscula, 1 mayúscula y 1 caracter no alfanumérico.</div>
                             </div>
 
                             <div class = "col col-sm-6 col-md-6 col-xl-6">
@@ -91,7 +111,7 @@
 
                         <div class = "form-group row">
                             <label for = "confirmPass" class = "col col-sm-6 col-md-6 col-xl-6">Confirmar contraseña</label>
-                            <label for = "nEmployee" class = "offset-2 col-sm-3 col-md-3 col-xl-3">Nº Empleado</label>
+                            <label for = "nEmployee" class = "offset-2 col-sm-3 col-md-3 col-xl-3 nEmployee d-none">Nº Empleado</label>
                         </div>
 
                         <div class = "form-group row">
@@ -100,13 +120,14 @@
                                 <input type = "password" class = "form-control" id = "confirmPass" name = "confirmPass">
                             </div>
 
-                            <div class="col col-sm-2 col-md-2 col-xl-2 form-check-inline" id = "isTechnical">
-                                <input type = "checkbox" class = "form-check-input" value = "yes" id = "technical" name = "technical">
+                            <div class="col col-sm-2 col-md-2 col-xl-2 form-check-inline d-none" id = "isTechnical">
+                                <input type = "checkbox" class = "form-check-input" id = "technical" name = "technical">
                                 <label for = "technical" class = "form-check-label">Técnico</label>
                             </div>
                             
                             <div class="col col-sm-3 col-md-3 col-xl-3">
-                                <input type = "text" class = "form-control" id = "nEmployee" name = "employee">
+                                <input type = "text" class = "form-control nEmployee d-none" id = "nEmployee" name = "employee">
+                                <div id = "nEmployeeHelp" class = "form-text nEmployee d-none"> El número corresponderá a 4 dígitos seguidos de un guión seguido de 3 minúsculas.</div>
                             </div>
 
                         </div>

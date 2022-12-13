@@ -98,6 +98,7 @@ class DAONotices {
                 const sql = 'UPDATE Notices SET Technical = ? WHERE Id = ?;'
                 
                 connection.query(sql, [idTechnical, idNotice], (err) => {
+                    connection.release();
                     if (err) callback(new Error('Error de acceso a la base de datos: ' + err.message));
                     else callback(null);
                 });

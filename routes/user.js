@@ -82,13 +82,16 @@ router.get('/logout', yetLogIn, (request, response) => {
     response.redirect('/user/login');
 });
 
-router.get('/signUp', alreadyLogIn, (request, response) => {
+router.get('/signIn', alreadyLogIn, (request, response) => {
     response.status(200);
-    response.render('signUp', { errors : null });
+    response.render('signIn', { errors : null });
 });
 
-router.post('/signUp', multerFactory.single('image'), (request, response, next) => {
+router.post('/signIn', multerFactory.single('image'), (request, response, next) => {
     response.status(200);
+
+    console.log(request.body);
+
     let user = {
         email : request.body.email,
         name : request.body.name,
