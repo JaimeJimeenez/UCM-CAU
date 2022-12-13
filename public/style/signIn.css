@@ -21,3 +21,7 @@
     text-decoration: none;
     color: white;
 }
+
+.errors {
+    color: red;
+}

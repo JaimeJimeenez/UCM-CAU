@@ -57,86 +57,83 @@
                 </div>
 
                 <div class="row">
-                    <form action = "/user/signUp" method = "POST" enctype = "multipart/form-data">
+                    <form action = "/user/signIn" method = "POST" enctype = "multipart/form-data">
 
                         <div class = "form-group row">
 
-                            <div class = "col col-sm-6 col-md-6 col-xl-6 col-form-label">
-                                <label for = "email" class = "col col-sm-6 col-md-6 col-xl-6 col-form-label">Email</label>
+                            <label for = "email" class = "col-form-label">Email:</label>
+                            <input type = "email" class = "form-control w-50" id = "email" name = "email">
+                            <% if (errors.email !== undefined) { %>
+                                <span class = "errors w-50"> <%= errors.email.msg %> </span>
+                            <% } %>
+                            <div id = "emailHelp" class = "form-text">El email introducido debe de corresponder a uno de la UCM.</div>
+                            
+                        </div>
+                        
+                        <div class = "form-group row">
+                            
+                            <label for = "name" class = "col-form-label"> Nombre: </label>
+                            <input type = "text" class = "form-control w-50" id = "name" name = "name">
+                            <% if (errors.name !== undefined) { %>
+                                <span class = "errors w-50"> <%= errors.name.msg %> </span>
+                            <% } %>
+                            <div id = "nameHelp" class = "form-text"> Campo obligatorio </div>
+                        
+                        </div>
 
-                            </div>
+                        <div class = "form-group row">
 
-                            <div class = "col col-sm-6 col-md-6 col-xl-6 col-form-label">
-                                <label for = "name" class = "col col-sm-6 col-md-6 col-xl-6 col-form-label"> Nombre</label>
-                               
-                            </div>
+                            <label for = "password" class = "col-form-label">Contraseña:</label>
+                            <input type = "password" class = "form-control w-50" id = "password" name = "password">
+                            <% if (errors.password !== undefined) { %>
+                                <span class = "errors w-50"> <%= errors.password.msg %> </span>
+                            <% } %>
+                            <div id = "passwordHelp" class = "form-text"> Entre 6 y 8 caracteres, al menos: 1 dígito, 1 minúscula, 1 mayúscula y 1 caracter no alfanumérico.</div>
 
                         </div>
 
                         <div class = "form-group row">
+
+                            <label for = "confirmPass" class = "col-form-label">Confirmar contraseña:</label>
+                            <input type = "password" class = "form-control w-50" id = "confirmPass" name = "confirmPass">
+                            <% if (errors.confirmPass !== undefined) { %>
+                                <span class = "errors w-50"> <%= errors.confirmPass.msg %> </span>
+                            <% } %>
+
+                        </div>
+
+                        <div class = "form-group row mt-2">
 
                             <div class = "col col-sm-6 col-md-6 col-xl-6">
-                                <input type = "email" class = "form-control" id = "email" name = "email">
-                                <div id="emailHelp" class = "form-text">El email introducido debe de corresponder a uno de la UCM.</div>
+                                <label for = "profile" class = "col-form-label">Perfil Universitario:</label>
+                                <div>
+                                    <select class = "form-control form-select" name = "profile" id = "profile">
+                                        <option value = "Alumno">Alumno</option>
+                                        <option value = "PAS">Personal de Administración y Servicios</option>
+                                        <option value = "PDI">Personal Docente e Investigador</option>
+                                        <option value = "Antiguo Alumno">Antiguo Alumno</option>
+                                    </select>
+                                </div>
                             </div>
-                            <div class = "col col-sm-6 col-md-6 col-xl-6">
-                                <input type = "text" class = "form-control" id = "name" name = "name">
-                                <div id = "nameHelp" class = "form-text"> Campo obligatorio </div>
-                            </div>
-
-                        </div>
-
-                        <div class = "form-group row">
-                            <label for = "password" class = "col col-sm-6 col-md-6 col-xl-6 col-form-label">Contraseña</label>
-                            <label for = "profile" class = "col col-sm-6 col-md-6 col-xl-6 col-form-label">Perfil Universitario</label>
-                        </div>
-
-                        <div class = "form-group row">
-
-                            <div class="col col-sm-6 col-md-6 col-xl-6">
-                                <input type = "password" class = "form-control" id = "password" name = "password">
-                                <div id = "passwordHelp" class = "form-text"> Entre 6 y 8 caracteres, al menos: 1 dígito, 1 minúscula, 1 mayúscula y 1 caracter no alfanumérico.</div>
-                            </div>
-
-                            <div class = "col col-sm-6 col-md-6 col-xl-6">
-                                <select class = "form-control form-select" name = "profile" id = "profile">
-                                    <option value = "Alumno">Alumno</option>
-                                    <option value = "PAS">Personal de Administración y Servicios</option>
-                                    <option value = "PDI">Personal Docente e Investigador</option>
-                                    <option value = "Antiguo Alumno">Antiguo Alumno</option>
-                                </select>
-                            </div>
-
-                        </div>
-
-                        <div class = "form-group row">
-                            <label for = "confirmPass" class = "col col-sm-6 col-md-6 col-xl-6">Confirmar contraseña</label>
-                            <label for = "nEmployee" class = "offset-2 col-sm-3 col-md-3 col-xl-3 nEmployee d-none">Nº Empleado</label>
-                        </div>
-
-                        <div class = "form-group row">
-
-                            <div class = "col col-sm-6 col-md-6 col-xl-6">
-                                <input type = "password" class = "form-control" id = "confirmPass" name = "confirmPass">
-                            </div>
-
-                            <div class="col col-sm-2 col-md-2 col-xl-2 form-check-inline d-none" id = "isTechnical">
+                            
+                            <div class = "col col-sm-4 col-md-4 col-xl-4 form-check-inline d-none" id = "isTechnical">
                                 <input type = "checkbox" class = "form-check-input" id = "technical" name = "technical">
                                 <label for = "technical" class = "form-check-label">Técnico</label>
                             </div>
-                            
-                            <div class="col col-sm-3 col-md-3 col-xl-3">
-                                <input type = "text" class = "form-control nEmployee d-none" id = "nEmployee" name = "employee">
-                                <div id = "nEmployeeHelp" class = "form-text nEmployee d-none"> El número corresponderá a 4 dígitos seguidos de un guión seguido de 3 minúsculas.</div>
-                            </div>
 
                         </div>
 
                         <div class = "form-group row">
-                            <label for = "image" class = "col col-sm col-md col-xl"> Imágen de perfil </label>
+                            <label for = "nEmployee" class = "form-check-label nEmployee d-none"> Numero de Empleado: </label>
+                            <input type = "text" class = "form-control nEmployee w-50 d-none" id = "nEmployee" name = "nEmployee">
+                            <% if (errors.nEmployee !== undefined) { %>
+                                <span class = "errors w-50"> <%= errors.nEmployee.msg %> </span>
+                            <% } %>
+                            <div id = "nEmployeeHelp" class = "form-text nEmployee d-none"> El número corresponderá a 4 dígitos seguidos de un guión seguido de 3 minúsculas.</div>
                         </div>
 
                         <div class = "form-group row">
+                            <label for = "image" class = "form-check-label"> Imágen de perfil </label>
                             <input type = "file" class = "col col-sm-6 col-md-6 col-xl-6" name = "image">
                         </div>
 

@@ -4,13 +4,13 @@
 const config = require('../config');
 const DAOUser = require('../DAOs/DAOUser');
 const DAONotice = require('../DAOs/DAONotice');
-//const signUpValidator = require('../validators/user');
 
 const express = require('express');
 const mysql = require('mysql');
 const path = require('path');
 const multer = require('multer');
 const moment = require('moment');
+const { check, validationResult } = require('express-validator');
 
 const multerFactory = multer( { storage : multer.memoryStorage() });
 const router = express.Router();
@@ -30,6 +30,12 @@ const yetLogIn = (request, response, next) => {
 const alreadyLogIn = (request, response, next) => {
     if (request.session.user) response.redirect('/notices/myNotices');
     else next();
+};
+
+// Checks Validators
+const isAnUCMEmail = (param) => {
+    console.log(param);
+    return param.endsWith('@ucm.es');
 };
 
 // --------------------------
@@ -84,29 +90,35 @@ router.get('/logout', yetLogIn, (request, response) => {
 
 router.get('/signIn', alreadyLogIn, (request, response) => {
     response.status(200);
-    response.render('signIn', { errors : null });
+    response.render('signIn', { errors : [] });
 });
 
-router.post('/signIn', multerFactory.single('image'), (request, response, next) => {
-    response.status(200);
+router.post('/signIn',
+    check("email", "Dirección de correo no válido").isEmpty(),
+    check("name", "Nombre de usuario vacío").isEmpty(),
+    multerFactory.single('image'), (request, response, next) => {
 
-    console.log(request.body);
+        response.status(200);
+        const errors = validationResult(request);
+        if (errors['errors'].length !== 0) response.render('signIn', { errors : errors.mapped()});
+        else {
+            let user = {
+                email : request.body.email,
+                name : request.body.name,
+                password: request.body.password,
+                profile : request.body.profile,
+                image : null,
+                date: moment().format('YY-MM-DD')
+            }
+            
+            if (request.file) user.image = request.file.buffer;
+            if (request.body.technical === 'on') user.employee = request.body.nEmployee;
 
-    let user = {
-        email : request.body.email,
-        name : request.body.name,
-        password: request.body.password,
-        profile : request.body.profile,
-        image : null,
-        date: moment().format('YY-MM-DD')
-    }
-
-    if (request.file) user.image = request.file.buffer;
-
-    daoUser.insertUser(user, (err) => {
-        if (err) next(err);
-        else response.redirect('/user/login');
-    }); 
+            daoUser.insertUser(user, (err) => {
+                if (err) next(err);
+                else response.redirect('/user/login');
+            }); 
+        }
 });
 
 router.get('/image', yetLogIn, (request, response, next) => {
