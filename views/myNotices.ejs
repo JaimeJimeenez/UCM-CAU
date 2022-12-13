@@ -51,8 +51,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <% notices.forEach((notice, index) => { %>
-                            <% if (!notice.Done) {%>
+                        <% notices.forEach(notice => { %>
+                            <% if (!notice.Done && notice.Active) {%>
                             <tr>
                                 <td class = "d-none idNotice" id = "nNotice"> <%= notice.Id %></td>
                                 <td> <%= notice.Type %> </td>

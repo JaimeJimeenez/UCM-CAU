@@ -84,12 +84,26 @@ router.get('/logout', yetLogIn, (request, response) => {
 
 router.get('/signUp', alreadyLogIn, (request, response) => {
     response.status(200);
-    response.render('signUp');
+    response.render('signUp', { errors : null });
 });
 
-router.post('/newAccount', multerFactory.single('image'), (request, response, next) => {
+router.post('/signUp', multerFactory.single('image'), (request, response, next) => {
     response.status(200);
+    let user = {
+        email : request.body.email,
+        name : request.body.name,
+        password: request.body.password,
+        profile : request.body.profile,
+        image : null,
+        date: moment().format('YY-MM-DD')
+    }
 
+    if (request.file) user.image = request.file.buffer;
+
+    daoUser.insertUser(user, (err) => {
+        if (err) next(err);
+        else response.redirect('/user/login');
+    }); 
 });
 
 router.get('/image', yetLogIn, (request, response, next) => {

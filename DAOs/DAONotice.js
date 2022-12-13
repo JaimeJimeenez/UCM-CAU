@@ -35,12 +35,27 @@ class DAONotices {
         this.pool.getConnection((err, connection) => {
             if (err) callback(new Error('Error de conexión a la base de datos: ' + err.message));
             else {
-                const sql = 'SELECT Users.Name, Users.Profile, Notices.Id, Notices.Type, Notices.Text, Notices.FunctionType, Notices.Function, Notices.Date, Notices.Comment FROM Notices JOIN UsersNotices ON UsersNotices.IdNotice = Notices.Id JOIN Users ON Users.Id = UsersNotices.IdUser WHERE Notices.Id = ?;';
+                const sql = 'SELECT Users.Name, Users.Profile, Notices.Id, Notices.Type, Notices.Text, Notices.FunctionType, Notices.Function, Notices.Date, Notices.Comment, Notices.Done, Notices.Active FROM Notices JOIN UsersNotices ON UsersNotices.IdNotice = Notices.Id JOIN Users ON Users.Id = UsersNotices.IdUser WHERE Notices.Id = ?;';
 
                 connection.query(sql, [id], (err, notice) => {
                     connection.release();
                     if (err) callback(new Error('Error de acceso a la base de datos: ' + err.message));
                     else callback(null, notice[0]);
+                });
+            }
+        });
+    }
+
+    getTechnicalByNotice(id, callback) {
+        this.pool.getConnection((err, connection) => {
+            if (err) callback(new Error('Error de conexión a la base de datos: ' + err.message));
+            else {
+                const sql = 'SELECT Users.Name FROM Users JOIN UsersNotices ON UsersNotices.IdNotice = ? JOIN Notices ON Notices.Technical = Users.Id AND UsersNotices.IdNotice = Notices.Id;';
+
+                connection.query(sql, [id], (err, technical) => {
+                    connection.release();
+                    if (err) callback(new Error('Error de acceso a la base de datos: ' + err.message));
+                    else callback(null, technical[0]);
                 });
             }
         });
@@ -76,6 +91,20 @@ class DAONotices {
         });
     }
 
+    assignNotice(idTechnical, idNotice, callback) {
+        this.pool.getConnection((err, connection) => {
+            if (err) callback(new Error('Error de la conexión a la base de datos: ' + err.message));
+            else {
+                const sql = 'UPDATE Notices SET Technical = ? WHERE Id = ?;'
+                
+                connection.query(sql, [idTechnical, idNotice], (err) => {
+                    if (err) callback(new Error('Error de acceso a la base de datos: ' + err.message));
+                    else callback(null);
+                });
+            }
+        });
+    }
+
     finishNotice(id, comment, callback) {
         this.pool.getConnection((err, connection) => {
             if (err) callback(new Error('Error de la conexión a la base de datos: ' + err.message));
@@ -102,7 +131,7 @@ class DAONotices {
                 daoUser.getUser(email, (err, user) => {
                     if (err) callback(err);
                     else {
-                        const sql = 'UPDATE Notices SET Active = 0 AND Comment = ? AND Technical = ? WHERE Id = ?;';
+                        const sql = 'UPDATE Notices SET Active = 0, Comment = ?, Technical = ? WHERE Id = ?;';
 
                         connection.query(sql, [text, user.Id, id], (err) => {
                             connection.release();

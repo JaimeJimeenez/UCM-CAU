@@ -24,7 +24,7 @@ class DAOUser {
             if (err) callback(new Error("Error de conexión a la base de datos: " + err.message));
             else {
                 if (user.hasOwnProperty("employee")) {
-                    const sql = "INSERT INTO Users (Name, Email, Password, Employee, Image, Date) VALUES (?, ?, ?, ?, ?, ?);";
+                    const sql = "INSERT INTO Users (Name, Email, Password, Employee, Image, Date, Active) VALUES (?, ?, ?, ?, ?, ?, 1);";
                     
                     connection.query(sql, [user.name, user.email, user.password, user.employee, user.image, user.date], (err, newUser) => {
                         connection.release();
@@ -32,7 +32,7 @@ class DAOUser {
                         else callback(null, newUser.insertId);
                     });
                 } else {
-                    const sql = "INSERT INTO Users (Name, Email, Password, Profile, Image, Date) VALUES (?, ?, ?, ?, ?, ?);";
+                    const sql = "INSERT INTO Users (Name, Email, Password, Profile, Image, Date, Active) VALUES (?, ?, ?, ?, ?, ?, 1);";
 
                     connection.query(sql, [user.name, user.email, user.password, user.profile, user.image, user.date], (err, newUser) => {
                         connection.release();

@@ -125,7 +125,7 @@ router.post('/newNotice', userRouter.yetLogIn, (request, response, next) => {
 
 router.post('/assignNotice', userRouter.yetLogIn, (request, response, next) => {
     response.status(200);
-    
+
     daoNotice.assignNotice(request.body.technicals, request.body.numberNotice, (err) => {
         if (err) next(err);
         else response.redirect('/notices/incomingNotices');
@@ -140,6 +140,17 @@ router.post('/finishNotice', userRouter.yetLogIn, (request, response, next) => {
     daoNotice.finishNotice(id, comment, (err) => {
         if (err) next(err);
         else response.redirect('/notices/myNotices');
+    });
+});
+
+router.post('/deleteNotice', userRouter.yetLogIn, (request, response, next) => {
+    response.status(200);
+    let id = request.body.numberNotice;
+    let comment = request.body.commentNotice;
+    
+    daoNotice.deleteNotice(request.session.user.email, id, comment, (err) => {
+        if (err) next(err);
+        else response.redirect('/notices/incomingNotices');
     });
 });
 
