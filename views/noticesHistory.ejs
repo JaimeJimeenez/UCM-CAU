@@ -53,7 +53,7 @@
                                 <td class = "d-none idNotice" id = 'nNotice'> <%= notice.Id %> </td>
                                 <td> <%= notice.Type %> </td>
                                 <td> <%= notice.Date %> </td>
-                                <td> <%= notice.Text %> </td>
+                                <td> <%= notice.Text.length > 199 ? notice.Text.slice(0, 200) + "..." : notice.Text %></td>
                                 <td>
                                     <a href = "#" class = "material-icons text-decoration-none notice" data-bs-toggle = "modal" data-bs-target = "#showModal"> visibility </a>
                                 </td>

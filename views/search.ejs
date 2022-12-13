@@ -4,7 +4,7 @@
 <html lang = "es">
 <head>
 
-    <title> Busqueda </title>
+    <title> Búsqueda </title>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -73,7 +73,7 @@
                                     <td class = "d-none idNotice" id = "nNotice"> <%= s.Id %> </td>
                                     <td> <%= s.Type %> </td>
                                     <td> <%= s.Date %> </td>
-                                    <td> <%= s.Text %> </td>
+                                    <td> <%= s.Text.length > 199 ? s.Text.slice(0, 200) + "..." : s.Text %></td>
                                     <td>
                                         <a href = "#" class = "material-icons text-decoration-none notice" data-bs-toggle = "modal" data-bs-target = "#showModal"> visibility </a>
                                     </td>
