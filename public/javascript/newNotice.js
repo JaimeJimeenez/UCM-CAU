@@ -2,8 +2,8 @@
 
 $(function() {
     $("#type").change(() => {
-        if (($('select[id = type]').val()) === "Felicitación") {
-            let functions = ["Archivo Universitario", "Asesoría Jurídica", "Biblioteca", "Centro de Información", "Departamentos docentes", "Inspección de Servicios", "Oficina de Gestión de Infraestructuras y Mantenimiento", "Servicio de Administración", "Servicios Informáticos", "Servicio de Documentación", "Servicio de Imprenta", "Servicio de Cafetería", "Toda la Universidad"];
+        if (($('select[id = type]').val()) === "Felicitacion") {
+            let functions = ["Archivo Universitario", "Asesoria Juridica", "Biblioteca", "Centro de Informacion", "Departamentos docentes", "Inspeccion de Servicios", "Oficina de Gestion de Infraestructuras y Mantenimiento", "Servicio de Administracion", "Servicios Informa¡ticos", "Servicio de Documentacion", "Servicio de Imprenta", "Servicio de Cafeteria", "Toda la Universidad"];
                
             $("#typeFunction").attr("disabled", "disabled");
             $("#function").empty();
@@ -15,18 +15,19 @@ $(function() {
             $("#function").empty();
             $("#typeFunction").removeAttr("disabled");
         }
+
     });
 });
 
 function mapStudents() {
     const students = new Map();
-    const administration = ["Registro electrónico", "Sede electrónica"];
-    const comunications = ["Correo electrónico", "Google Meet", "Cuenta de Alumno"];
+    const administration = ["Registro electronico", "Sede electronica"];
+    const comunications = ["Correo electronico", "Google Meet", "Cuenta de Alumno"];
     const conectivity = ["Cortafuegos corporativo", "VPN Acceso remoto", "Wifi Eduroam (ssid: eduroam)"]; 
     const docency = ["Aula virtual", "Moodle: Aula Global", "Plataforma de cursos online Privados"];
     const web = ["Portal de eventos"];
 
-    students.set('Administración Digital', administration);
+    students.set('Administracion Digital', administration);
     students.set('Comunicaciones', comunications);
     students.set('Conectividad', conectivity);
     students.set('Docencia', docency);
@@ -37,13 +38,13 @@ function mapStudents() {
 
 function mapNonStudents() {
     const nonStudents = new Map();
-    const administration = ["Certificado digital de personal física", "Certificado electrónico de empleado público", "Registro electrónico", "Sede electrónica", "Portafirmas"];
-    const comunications = ["Correo electrónico", "Google Meet", "Cuenta del personal", "Cuenta genérica"];
-    const conectivity = ["Conexión por cable en despachos", "Cortafuegos corporativo", "VPN Acceso remoto", "Wifi Eduroam (ssid: eduroam)", "Wifi para visitantes (ssid: UCM-Visitantes"];
+    const administration = ["Certificado digital de personal fisica", "Certificado electronico de empleado publico", "Registro electronico", "Sede electronica", "Portafirmas"];
+    const comunications = ["Correo electronico", "Google Meet", "Cuenta del personal", "Cuenta generica"];
+    const conectivity = ["Conexion por cable en despachos", "Cortafuegos corporativo", "VPN Acceso remoto", "Wifi Eduroam (ssid: eduroam)", "Wifi para visitantes (ssid: UCM-Visitantes"];
     const docency = [ "Blackboard Collaborate", "Listados de clase", "Moodle: Aula Global"];
-    const web = ["Analítica Web","Emisión de certficado SSL", "Hosting: alojamiento de páginas web", "Portal de eventos", "Redirecciones web"];
+    const web = ["Analitica Web","Emision de certficado SSL", "Hosting: alojamiento de pa¡ginas web", "Portal de eventos", "Redirecciones web"];
 
-    nonStudents.set('Administración Digital', administration);
+    nonStudents.set('Administracion Digital', administration);
     nonStudents.set('Comunicaciones', comunications);
     nonStudents.set('Conectividad', conectivity);
     nonStudents.set('Docencia', docency);
@@ -59,12 +60,12 @@ $(function() {
 
         // Students
         let student = mapStudents();
-        student.get('Administración Digital').push('Certificado digital de personal física');
+        student.get('Administracion Digital').push('Certificado digital de personal fisica');
 
         // PAS
         let pas = mapNonStudents();
         pas.get('Conectividad').push('Cuenta as la red SARA');
-        pas.get('Conectividad').push('Resolución de nombre de dominio (DNS)');
+        pas.get('Conectividad').push('Resolucion de nombre de dominio (DNS)');
 
         // PDI
         let pdi = mapNonStudents();
@@ -89,5 +90,13 @@ $(function() {
             $("#function").append("<option value= '" + f + "'> " + f + "</option>");    
         });
 
+    });
+});
+
+$(function() {
+    $('#noticeContent').change(() =>  {
+        let content = $('#noticeContent').val();
+        if (content === '') $('#noticeButton').attr('disabled', true);
+        else $('#noticeButton').attr('disabled', false);
     });
 });

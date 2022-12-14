@@ -134,6 +134,7 @@ router.post('/assignNotice', userRouter.yetLogIn, (request, response, next) => {
 
 router.post('/finishNotice', userRouter.yetLogIn, (request, response, next) => {
     response.status(200);
+    console.log(request.body);
     let id = request.body.numberNotice;
     let comment = request.body.commentNotice;
     

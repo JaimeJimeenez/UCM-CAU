@@ -9,6 +9,6 @@ module.exports = {
         database: "UCM-CAU"
     },
 
-    port: 3306
+    port: 3000
     
 };

@@ -7,15 +7,12 @@ const fs = require("fs");
 // Package's Modules
 const mysql = require('mysql');
 const express = require('express');
-const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const session = require('express-session');
 const mysqlSession = require('express-mysql-session');
 
 // File's Modules
 const config = require('./config');
-const DAONotices = require('./DAOs/DAONotice');
-const DAOUser = require('./DAOs/DAOUser');
 const index = require('./routes/index');
 const user = require('./routes/user');
 const notices = require('./routes/notices');
@@ -38,8 +35,9 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.static(path.join(__dirname, "public")));
-app.use(bodyParser.urlencoded( { extended: true }));
+app.use(express.urlencoded( { extended: true }));
 app.use(morgan("dev"));
+app.use(express.json());
 
 // Routes and Middlewares
 app.use(middlewareSession);
@@ -47,6 +45,6 @@ app.use('/', index);
 app.use('/user', user.router);
 app.use('/notices', notices.router);
 
-app.listen(3000, () => {
+app.listen(config.port, () => {
     console.log("Server listening in 3000 port");
 });

@@ -93,34 +93,23 @@ router.get('/signIn', alreadyLogIn, (request, response) => {
     response.render('signIn', { errors : [] });
 });
 
-router.post('/signIn',
-    check("email", "Dirección de correo no válido").notEmpty(),
-    check("name", "Nombre de usuario vacío").notEmpty(),
-    multerFactory.single('image'), (request, response) => {
+router.post('/signIn', multerFactory.single('image'), (request, response) => {
+    let user = {
+        email : request.body.email,
+        name : request.body.name,
+        password: request.body.password,
+        profile : request.body.profile,
+        image : null,
+        date: moment().format('YY-MM-DD')
+    };
+    
+    if (request.file) user.image = request.file.buffer;
+    if (request.body.technical === 'on') user.employee = request.body.nEmployee;
 
-        response.status(200);
-        const errors = validationResult(request); 
-        console.log(request);
-        console.log(errors);
-        if (!errors.isEmpty()) response.render('signIn', { errors : errors.mapped()});
-        else {
-            let user = {
-                email : request.body.email,
-                name : request.body.name,
-                password: request.body.password,
-                profile : request.body.profile,
-                image : null,
-                date: moment().format('YY-MM-DD')
-            };
-            
-            if (request.file) user.image = request.file.buffer;
-            if (request.body.technical === 'on') user.employee = request.body.nEmployee;
-
-            daoUser.insertUser(user, (err) => {
-                if (err) console.log(err);
-                else response.redirect('/user/login');
-            }); 
-        }
+    daoUser.insertUser(user, (err) => {
+        if (err) console.log(err);
+        else response.redirect('/user/login');
+    }); 
 });
 
 router.get('/image', yetLogIn, (request, response, next) => {

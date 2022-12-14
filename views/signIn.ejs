@@ -2,7 +2,7 @@
 
 <html lang = "es">
 <head>
-    <title> Sign up </title>
+    <title> Sign in </title>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -60,12 +60,12 @@
                 </div>
 
                 <div class="row">
-                    <form action = "/user/signIn" method = "POST" enctype = "multipart/form-data">
+                    <form action = "/signIn" method = "POST" enctype = "multipart/form-data">
 
                         <div class = "form-group row">
 
                             <label for = "email" class = "col-form-label">Email:</label>
-                            <input type = "email" class = "form-control w-50" id = "email" name = "email">
+                            <input type = "email" class = "form-control w-50" name = "email">
                             <% if (errors.email !== undefined) { %>
                                 <span class = "errors w-50"> <%= errors.email.msg %> </span>
                             <% } %>
@@ -76,7 +76,7 @@
                         <div class = "form-group row">
                             
                             <label for = "name" class = "col-form-label"> Nombre: </label>
-                            <input type = "text" class = "form-control w-50" id = "name" name = "name">
+                            <input type = "text" class = "form-control w-50" name = "name">
                             <% if (errors.name !== undefined) { %>
                                 <span class = "errors w-50"> <%= errors.name.msg %> </span>
                             <% } %>
@@ -87,7 +87,7 @@
                         <div class = "form-group row">
 
                             <label for = "password" class = "col-form-label">Contraseña:</label>
-                            <input type = "password" class = "form-control w-50" id = "password" name = "password">
+                            <input type = "password" class = "form-control w-50" name = "password">
                             <% if (errors.password !== undefined) { %>
                                 <span class = "errors w-50"> <%= errors.password.msg %> </span>
                             <% } %>
