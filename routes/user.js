@@ -7,10 +7,8 @@ const DAONotice = require('../DAOs/DAONotice');
 
 const express = require('express');
 const mysql = require('mysql');
-const path = require('path');
 const multer = require('multer');
 const moment = require('moment');
-const { check, validationResult } = require('express-validator');
 
 const multerFactory = multer( { storage : multer.memoryStorage() });
 const router = express.Router();
@@ -30,12 +28,6 @@ const yetLogIn = (request, response, next) => {
 const alreadyLogIn = (request, response, next) => {
     if (request.session.user) response.redirect('/notices/myNotices');
     else next();
-};
-
-// Checks Validators
-const isAnUCMEmail = (param) => {
-    console.log(param);
-    return param.endsWith('@ucm.es');
 };
 
 // --------------------------
@@ -69,7 +61,7 @@ router.post('/login', alreadyLogIn, (request, response, next) => {
                 date : moment(user.Date).format('DD/MM/YYYY'),
                 image : user.Image
             };
-
+            
             request.session.user = currentUser;
             response.redirect('/notices/myNotices');
         } else if (!user.Active) {

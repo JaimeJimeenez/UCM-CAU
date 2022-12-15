@@ -42,8 +42,10 @@
                                         <option value = ""></option>
                                         <option value = "Administracion Digital">Administración Digital </option>
                                         <option value = "Comunicaciones"> Comunicaciones </option>
-                                        <option value = "Conectividad"> Conectividad </option>
-                                        <option value = "Docencia"> Docencia </option>
+                                        <% if (user.profile !== 'Antiguo Alumno') { %>
+                                            <option value = "Conectividad"> Conectividad </option>
+                                            <option value = "Docencia"> Docencia </option>
+                                        <% } %>
                                         <option value = "Web"> Web </option>
                                     </select>
                                 </div>

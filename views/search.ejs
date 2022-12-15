@@ -13,10 +13,12 @@
     <link href = "https://fonts.googleapis.com/icon?family=Material+Icons" rel = "stylesheet">
     <link href = "../style/user.css" rel = "stylesheet">
     <link href = "../style/notice.css" rel = "stylesheet">
+    <link href = "../style/search.css" rel = "stylesheet">
 
     <script src = "https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src = "https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src = "/javascript/showNotice.js"></script>
+    
 </head>
 <body>
 
@@ -30,58 +32,49 @@
         <% } else { %>
             <%- include ('partials/navbars/technicalNav') %>
         <% } %> 
-        
+
         <div id = "searchResults">
-            <div class = "table-responsive d-flex justify-content-center p-3">
-                <table class = "table table-hover text-center w-75">
-                    <% if (searchUser) { %>
-                        <thead>
-                            <tr>
-                                <th> Fecha </th>
-                                <th> Nombre </th>
-                                <th> Rol </th>
-                                <th> Acciones </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% search.forEach(s => { %>
-                                <tr>
-                                    <td> <%= s.Date %> </td>
-                                    <td> <%= s.Name %> </td>
-                                    <% if (s.Employee === null) { %>
-                                        <td> Usuario </td>
-                                    <% } else { %>
-                                        <td> Técnico </td>
-                                    <% } %>
-                                    <td></td>
-                                </tr>
-                            <% }); %>
-                        </tbody>
-                    <% } else { %>
-                        <thead>
-                            <tr>
-                                <th class = "d-none"> Id </th>
-                                <th> Tipo </th>
-                                <th> Fecha </th>
-                                <th> Texto </th>
-                                <th> Acciones </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% search.forEach(s => { %>
-                                <tr>
-                                    <td class = "d-none idNotice" id = "nNotice"> <%= s.Id %> </td>
-                                    <td> <%= s.Type %> </td>
-                                    <td> <%= s.Date %> </td>
-                                    <td> <%= s.Text.length > 199 ? s.Text.slice(0, 200) + "..." : s.Text %></td>
-                                    <td>
-                                        <a href = "#" class = "material-icons text-decoration-none notice" data-bs-toggle = "modal" data-bs-target = "#showModal"> visibility </a>
-                                    </td>
-                                </tr>
-                            <% }); %>
-                        </tbody>
-                    <%}%>
-                </table>    
+            <div class = "row d-flex justify-content-center p-3">
+                <% if (searchUser) { %>
+                <div class = "row text-center w-75 bg-light p-2 searchBar">
+                    <div class = "col col-sm col-md col-xl"> Fecha </div>
+                    <div class = "col col-sm col-md col-xl"> Nombre </div>
+                    <div class = "col col-sm col-md col-xl"> Rol </div>
+                    <div class = "col col-sm col-md col-xl"> Acciones </div>
+                </div>
+                <% search.forEach(s => { %>
+                    <div class = "row text-center w-75">
+                        <div class = "col col-sm col-md col-xl"> <%= s.Date %> </div>
+                        <div class = "col col-sm col-md col-xl"> <%= s.Name %> </div>
+                        <div class = "col col-sm col-md col-xl"> 
+                            <% if (s.Employee === null) { %>
+                                <div class = "col col-sm col-md col-xl"> Usuario </div>
+                        <% } else { %>
+                                <div class = "col col-sm col-md col-xl"> Técnico </div>
+                        <% } %> </div>
+                        <div class = "col col-sm col-md col-xl"></div>
+                    </div>
+                <% }); %>
+                <% } else { %>
+                    <div class = "row text-center w-75 bg-light p-2 searchBar">
+                        <div class = "col col-sm col-md col-xl d-none"> Id </div>
+                        <div class = "col col-sm col-md col-xl"> Tipo </div>
+                        <div class = "col col-sm col-md col-xl"> Fecha </div>
+                        <div class = "col col-sm col-md col-xl"> Texto </div>
+                        <div class = "col col-sm col-md col-xl"> Acciones </div>
+                    </div>
+                    <% search.forEach(s => { %>
+                        <div class = "row text-center w-75">
+                            <div class = "d-none idNotice" id = "nNotice"> <%= s.Id %> </div>
+                            <div class = "col col-sm col-md col-xl"> <%= s.Type %> </div>
+                            <div class = "col col-sm col-md col-xl"> <%= s.Date %> </div>
+                            <div class = "col col-sm col-md col-xl"> <%= s.Text %> </div>
+                            <div class = "col col-sm col-md col-xl">
+                                <a href = "#" class = "material-icons text-decoration-none notice" data-bs-toggle = "modal" data-bs-target = "#showModal"> visibility </a>
+                            </div>
+                        </div>
+                    <% }); %>
+                <% } %>
             </div>
         </div>
 

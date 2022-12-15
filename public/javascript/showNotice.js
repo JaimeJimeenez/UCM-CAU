@@ -23,6 +23,7 @@ $(function() {
                 
                 if (!data.notice.Active) $('#comment').text('Este aviso ha sido eliminado por el técnico ' + data.technical.Name + ' debido a: ' + data.notice.Comment);
                 else if (data.notice.Done) $('#comment').text(data.notice.Comment);
+                else $('#comment').text("");
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 alert("Se ha producido un error: " + errorThrown);
